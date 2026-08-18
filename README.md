@@ -21,13 +21,13 @@ iOS · Android · macOS · Windows · Linux · Web
 
 ## Screenshots
 
-<p align="left">
-  <img src="docs/screenshots/list.png" width="220" alt="Feed" />
-  <img src="docs/screenshots/movie1.png" width="220" alt="Movie details" />
-  <img src="docs/screenshots/movie2.png" width="220" alt="Movie detail with verdict" />
-  <img src="docs/screenshots/search.png" width="220" alt="Search and settings" />
-  <img src="docs/screenshots/settings.png" width="220" alt="Settings" />
-</p>
+| List | Movie with stinger | Movie without stinger |
+|---|---|---|
+| <img src="docs/screenshots/list.png" width="240" alt="Feed" /> | <img src="docs/screenshots/movie1.png" width="240" alt="Movie details" /> | <img src="docs/screenshots/movie2.png" width="240" alt="Movie detail with verdict" /> |
+
+| Search | Settings | Settings with cinema mode on |
+|---|---|---|
+| <img src="docs/screenshots/search.png" width="240" alt="Search and settings" /> | <img src="docs/screenshots/settings.png" width="240" alt="Settings" /> | <img src="docs/screenshots/settings.png" width="240" alt="Settings with cinema mode on" /> |
 
 ---
 
