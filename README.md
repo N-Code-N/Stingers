@@ -27,7 +27,7 @@ iOS · Android · macOS · Windows · Linux · Web
 
 | Search | Settings | Settings with cinema mode on |
 |---|---|---|
-| <img src="docs/screenshots/search.png" width="240" alt="Search and settings" /> | <img src="docs/screenshots/settings.png" width="240" alt="Settings" /> | <img src="docs/screenshots/settings.png" width="240" alt="Settings with cinema mode on" /> |
+| <img src="docs/screenshots/search.png" width="240" alt="Search and settings" /> | <img src="docs/screenshots/settings1.png" width="240" alt="Settings" /> | <img src="docs/screenshots/settings2.png" width="240" alt="Settings with cinema mode on" /> |
 
 ---
 
