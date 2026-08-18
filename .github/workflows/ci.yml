@@ -16,7 +16,6 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version-file: pubspec.yaml
           channel: stable
           cache: true
 
@@ -67,7 +66,6 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version-file: pubspec.yaml
           channel: stable
           cache: true
 
