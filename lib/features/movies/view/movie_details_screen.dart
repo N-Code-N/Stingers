@@ -191,8 +191,7 @@ class _DetailsBodyState extends State<_DetailsBody> {
     final newMovie = widget.details.movie;
     final localeChanged = oldWidget.localeGeneration != widget.localeGeneration;
     final overviewChanged =
-        oldMovie.overview != newMovie.overview ||
-        oldMovie.tmdbId != newMovie.tmdbId;
+        oldMovie.overview != newMovie.overview || oldMovie.tmdbId != newMovie.tmdbId;
 
     if (localeChanged || overviewChanged) {
       _overviewVisible = false;

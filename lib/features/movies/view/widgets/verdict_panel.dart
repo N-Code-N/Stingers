@@ -89,19 +89,14 @@ class _VerdictSwitch extends StatelessWidget {
     duration: AppMotion.duration(context, AppMotion.long),
     switchInCurve: AppMotion.curve,
     switchOutCurve: AppMotion.curve,
-    transitionBuilder: (child, animation) => FadeTransition(
-      opacity: animation,
-      child: child,
-    ),
+    transitionBuilder: (child, animation) =>
+        FadeTransition(opacity: animation, child: child),
     layoutBuilder: (currentChild, previousChildren) {
       final children = [...previousChildren];
       if (currentChild != null) {
         children.add(currentChild);
       }
-      return Stack(
-        alignment: AlignmentDirectional.topStart,
-        children: children,
-      );
+      return Stack(alignment: AlignmentDirectional.topStart, children: children);
     },
     child: KeyedSubtree(key: verdictKey, child: child),
   );
@@ -136,16 +131,10 @@ class _Block extends StatelessWidget {
           duration: const Duration(milliseconds: 250),
           switchInCurve: Curves.easeOutCubic,
           switchOutCurve: Curves.easeInCubic,
-          transitionBuilder: (child, animation) => FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
+          transitionBuilder: (child, animation) =>
+              FadeTransition(opacity: animation, child: child),
           child: detail.isEmpty
-              ? const SizedBox(
-                  key: ValueKey('empty-detail'),
-                  height: 20,
-                  width: 1,
-                )
+              ? const SizedBox(key: ValueKey('empty-detail'), height: 20, width: 1)
               : Align(
                   key: ValueKey(detail),
                   alignment: isPercent

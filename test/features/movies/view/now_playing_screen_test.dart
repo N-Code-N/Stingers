@@ -18,7 +18,9 @@ void main() {
   tearDown(() => repository.close());
 
   Future<void> pump(WidgetTester tester) => tester.pumpWidget(
-    testApp(child: NowPlayingScreen(repository: repository, locale: AppLocaleController())),
+    testApp(
+      child: NowPlayingScreen(repository: repository, locale: AppLocaleController()),
+    ),
   );
 
   testWidgets('shows a spinner before the feed has loaded', (tester) async {

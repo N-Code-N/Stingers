@@ -51,19 +51,20 @@ void main() {
     expect(tile.value, isTrue);
   });
 
-  testWidgets('the language menu keeps only explicit choices and keeps the current value visible', (
-    tester,
-  ) async {
-    await pump(tester);
+  testWidgets(
+    'the language menu keeps only explicit choices and keeps the current value visible',
+    (tester) async {
+      await pump(tester);
 
-    await tester.tap(find.byType(PopupMenuButton<Locale?>));
-    await tester.pumpAndSettle();
+      await tester.tap(find.byType(PopupMenuButton<Locale?>));
+      await tester.pumpAndSettle();
 
-    expect(find.byType(PopupMenuItem<Locale>), findsNWidgets(2));
-    expect(find.text('System language'), findsOneWidget);
-    expect(find.text('English'), findsOneWidget);
-    expect(find.text('Русский'), findsOneWidget);
-  });
+      expect(find.byType(PopupMenuItem<Locale>), findsNWidgets(2));
+      expect(find.text('System language'), findsOneWidget);
+      expect(find.text('English'), findsOneWidget);
+      expect(find.text('Русский'), findsOneWidget);
+    },
+  );
 
   testWidgets('tapping "My votes" navigates to the votes screen', (tester) async {
     final router = GoRouter(

@@ -20,11 +20,7 @@ import 'widgets/movie_row.dart';
 /// No title: the list is posters and film names, and a bar saying "in cinemas" over it
 /// is a line of lit text explaining what is already obvious.
 class NowPlayingScreen extends StatefulWidget {
-  const NowPlayingScreen({
-    super.key,
-    required this.repository,
-    required this.locale,
-  });
+  const NowPlayingScreen({super.key, required this.repository, required this.locale});
 
   final MovieRepository repository;
   final AppLocaleController locale;

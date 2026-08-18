@@ -51,10 +51,8 @@ class SceneBadge extends StatelessWidget {
       duration: duration,
       switchInCurve: AppMotion.curve,
       switchOutCurve: AppMotion.curve,
-      transitionBuilder: (child, animation) => FadeTransition(
-        opacity: animation,
-        child: child,
-      ),
+      transitionBuilder: (child, animation) =>
+          FadeTransition(opacity: animation, child: child),
       child: Container(
         key: ValueKey(label),
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),

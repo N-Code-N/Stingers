@@ -57,10 +57,7 @@ class MovieTitleStack extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ],
-        if (year != null) ...[
-          const SizedBox(height: 4),
-          Text('$year', style: yearStyle),
-        ],
+        if (year != null) ...[const SizedBox(height: 4), Text('$year', style: yearStyle)],
       ],
     );
   }

@@ -15,7 +15,9 @@ void main() {
   tearDown(() => repository.close());
 
   Future<void> pump(WidgetTester tester) => tester.pumpWidget(
-    testApp(child: SearchScreen(repository: repository, locale: AppLocaleController())),
+    testApp(
+      child: SearchScreen(repository: repository, locale: AppLocaleController()),
+    ),
   );
 
   Future<void> submit(WidgetTester tester, String text) async {

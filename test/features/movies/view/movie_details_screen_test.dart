@@ -36,11 +36,7 @@ void main() {
     final locale = AppLocaleController();
     await tester.pumpWidget(
       testApp(
-        child: MovieDetailsScreen(
-          tmdbId: 7,
-          repository: repository,
-          locale: locale,
-        ),
+        child: MovieDetailsScreen(tmdbId: 7, repository: repository, locale: locale),
       ),
     );
 
@@ -85,10 +81,7 @@ void main() {
     await tester.pump();
     await tester.pump();
 
-    expect(
-      find.text('Скажите одним из первых — это одно касание.'),
-      findsOneWidget,
-    );
+    expect(find.text('Скажите одним из первых — это одно касание.'), findsOneWidget);
   });
 
   testWidgets('never renders the outgoing overview while the new locale is loading', (
@@ -101,11 +94,7 @@ void main() {
     await tester.pumpWidget(
       testApp(
         locale: const Locale('en'),
-        child: MovieDetailsScreen(
-          tmdbId: 7,
-          repository: repository,
-          locale: locale,
-        ),
+        child: MovieDetailsScreen(tmdbId: 7, repository: repository, locale: locale),
       ),
     );
 
@@ -185,9 +174,7 @@ void main() {
     expect(find.text('Did this film have a scene after the credits?'), findsOneWidget);
   });
 
-  testWidgets('keeps a cached overview hidden until the page has opened', (
-    tester,
-  ) async {
+  testWidgets('keeps a cached overview hidden until the page has opened', (tester) async {
     await pump(tester);
     repository.movie.add(
       MovieDetails(
@@ -221,11 +208,7 @@ void main() {
     await tester.pumpWidget(
       testApp(
         locale: locale.locale ?? const Locale('en'),
-        child: MovieDetailsScreen(
-          tmdbId: 7,
-          repository: repository,
-          locale: locale,
-        ),
+        child: MovieDetailsScreen(tmdbId: 7, repository: repository, locale: locale),
       ),
     );
 

@@ -39,9 +39,7 @@ class $CachedMoviesTable extends CachedMovies
     requiredDuringInsert: false,
     defaultValue: const Constant(''),
   );
-  static const VerificationMeta _posterPathMeta = const VerificationMeta(
-    'posterPath',
-  );
+  static const VerificationMeta _posterPathMeta = const VerificationMeta('posterPath');
   @override
   late final GeneratedColumn<String> posterPath = GeneratedColumn<String>(
     'poster_path',
@@ -50,9 +48,7 @@ class $CachedMoviesTable extends CachedMovies
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _releaseDateMeta = const VerificationMeta(
-    'releaseDate',
-  );
+  static const VerificationMeta _releaseDateMeta = const VerificationMeta('releaseDate');
   @override
   late final GeneratedColumn<DateTime> releaseDate = GeneratedColumn<DateTime>(
     'release_date',
@@ -61,9 +57,7 @@ class $CachedMoviesTable extends CachedMovies
     type: DriftSqlType.dateTime,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _overviewMeta = const VerificationMeta(
-    'overview',
-  );
+  static const VerificationMeta _overviewMeta = const VerificationMeta('overview');
   @override
   late final GeneratedColumn<String> overview = GeneratedColumn<String>(
     'overview',
@@ -73,9 +67,7 @@ class $CachedMoviesTable extends CachedMovies
     requiredDuringInsert: false,
     defaultValue: const Constant(''),
   );
-  static const VerificationMeta _fetchedAtMeta = const VerificationMeta(
-    'fetchedAt',
-  );
+  static const VerificationMeta _fetchedAtMeta = const VerificationMeta('fetchedAt');
   @override
   late final GeneratedColumn<DateTime> fetchedAt = GeneratedColumn<DateTime>(
     'fetched_at',
@@ -88,14 +80,13 @@ class $CachedMoviesTable extends CachedMovies
     'detailsFetchedAt',
   );
   @override
-  late final GeneratedColumn<DateTime> detailsFetchedAt =
-      GeneratedColumn<DateTime>(
-        'details_fetched_at',
-        aliasedName,
-        true,
-        type: DriftSqlType.dateTime,
-        requiredDuringInsert: false,
-      );
+  late final GeneratedColumn<DateTime> detailsFetchedAt = GeneratedColumn<DateTime>(
+    'details_fetched_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     tmdbId,
@@ -126,20 +117,14 @@ class $CachedMoviesTable extends CachedMovies
       );
     }
     if (data.containsKey('title')) {
-      context.handle(
-        _titleMeta,
-        title.isAcceptableOrUnknown(data['title']!, _titleMeta),
-      );
+      context.handle(_titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
     } else if (isInserting) {
       context.missing(_titleMeta);
     }
     if (data.containsKey('original_title')) {
       context.handle(
         _originalTitleMeta,
-        originalTitle.isAcceptableOrUnknown(
-          data['original_title']!,
-          _originalTitleMeta,
-        ),
+        originalTitle.isAcceptableOrUnknown(data['original_title']!, _originalTitleMeta),
       );
     }
     if (data.containsKey('poster_path')) {
@@ -151,10 +136,7 @@ class $CachedMoviesTable extends CachedMovies
     if (data.containsKey('release_date')) {
       context.handle(
         _releaseDateMeta,
-        releaseDate.isAcceptableOrUnknown(
-          data['release_date']!,
-          _releaseDateMeta,
-        ),
+        releaseDate.isAcceptableOrUnknown(data['release_date']!, _releaseDateMeta),
       );
     }
     if (data.containsKey('overview')) {
@@ -288,10 +270,7 @@ class CachedMovie extends DataClass implements Insertable<CachedMovie> {
     );
   }
 
-  factory CachedMovie.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory CachedMovie.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return CachedMovie(
       tmdbId: serializer.fromJson<int>(json['tmdbId']),
@@ -301,9 +280,7 @@ class CachedMovie extends DataClass implements Insertable<CachedMovie> {
       releaseDate: serializer.fromJson<DateTime?>(json['releaseDate']),
       overview: serializer.fromJson<String>(json['overview']),
       fetchedAt: serializer.fromJson<DateTime>(json['fetchedAt']),
-      detailsFetchedAt: serializer.fromJson<DateTime?>(
-        json['detailsFetchedAt'],
-      ),
+      detailsFetchedAt: serializer.fromJson<DateTime?>(json['detailsFetchedAt']),
     );
   }
   @override
@@ -349,12 +326,8 @@ class CachedMovie extends DataClass implements Insertable<CachedMovie> {
       originalTitle: data.originalTitle.present
           ? data.originalTitle.value
           : this.originalTitle,
-      posterPath: data.posterPath.present
-          ? data.posterPath.value
-          : this.posterPath,
-      releaseDate: data.releaseDate.present
-          ? data.releaseDate.value
-          : this.releaseDate,
+      posterPath: data.posterPath.present ? data.posterPath.value : this.posterPath,
+      releaseDate: data.releaseDate.present ? data.releaseDate.value : this.releaseDate,
       overview: data.overview.present ? data.overview.value : this.overview,
       fetchedAt: data.fetchedAt.present ? data.fetchedAt.value : this.fetchedAt,
       detailsFetchedAt: data.detailsFetchedAt.present
@@ -538,9 +511,7 @@ class $CachedStatsTable extends CachedStats
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _rawVotesMeta = const VerificationMeta(
-    'rawVotes',
-  );
+  static const VerificationMeta _rawVotesMeta = const VerificationMeta('rawVotes');
   @override
   late final GeneratedColumn<int> rawVotes = GeneratedColumn<int>(
     'raw_votes',
@@ -550,9 +521,7 @@ class $CachedStatsTable extends CachedStats
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
-  static const VerificationMeta _totalWeightMeta = const VerificationMeta(
-    'totalWeight',
-  );
+  static const VerificationMeta _totalWeightMeta = const VerificationMeta('totalWeight');
   @override
   late final GeneratedColumn<double> totalWeight = GeneratedColumn<double>(
     'total_weight',
@@ -562,9 +531,7 @@ class $CachedStatsTable extends CachedStats
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
-  static const VerificationMeta _sceneWeightMeta = const VerificationMeta(
-    'sceneWeight',
-  );
+  static const VerificationMeta _sceneWeightMeta = const VerificationMeta('sceneWeight');
   @override
   late final GeneratedColumn<double> sceneWeight = GeneratedColumn<double>(
     'scene_weight',
@@ -574,9 +541,7 @@ class $CachedStatsTable extends CachedStats
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
-  static const VerificationMeta _worthWeightMeta = const VerificationMeta(
-    'worthWeight',
-  );
+  static const VerificationMeta _worthWeightMeta = const VerificationMeta('worthWeight');
   @override
   late final GeneratedColumn<double> worthWeight = GeneratedColumn<double>(
     'worth_weight',
@@ -586,9 +551,7 @@ class $CachedStatsTable extends CachedStats
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
-  static const VerificationMeta _worthTotalMeta = const VerificationMeta(
-    'worthTotal',
-  );
+  static const VerificationMeta _worthTotalMeta = const VerificationMeta('worthTotal');
   @override
   late final GeneratedColumn<double> worthTotal = GeneratedColumn<double>(
     'worth_total',
@@ -598,9 +561,7 @@ class $CachedStatsTable extends CachedStats
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
-  static const VerificationMeta _fetchedAtMeta = const VerificationMeta(
-    'fetchedAt',
-  );
+  static const VerificationMeta _fetchedAtMeta = const VerificationMeta('fetchedAt');
   @override
   late final GeneratedColumn<DateTime> fetchedAt = GeneratedColumn<DateTime>(
     'fetched_at',
@@ -646,28 +607,19 @@ class $CachedStatsTable extends CachedStats
     if (data.containsKey('total_weight')) {
       context.handle(
         _totalWeightMeta,
-        totalWeight.isAcceptableOrUnknown(
-          data['total_weight']!,
-          _totalWeightMeta,
-        ),
+        totalWeight.isAcceptableOrUnknown(data['total_weight']!, _totalWeightMeta),
       );
     }
     if (data.containsKey('scene_weight')) {
       context.handle(
         _sceneWeightMeta,
-        sceneWeight.isAcceptableOrUnknown(
-          data['scene_weight']!,
-          _sceneWeightMeta,
-        ),
+        sceneWeight.isAcceptableOrUnknown(data['scene_weight']!, _sceneWeightMeta),
       );
     }
     if (data.containsKey('worth_weight')) {
       context.handle(
         _worthWeightMeta,
-        worthWeight.isAcceptableOrUnknown(
-          data['worth_weight']!,
-          _worthWeightMeta,
-        ),
+        worthWeight.isAcceptableOrUnknown(data['worth_weight']!, _worthWeightMeta),
       );
     }
     if (data.containsKey('worth_total')) {
@@ -772,10 +724,7 @@ class CachedStat extends DataClass implements Insertable<CachedStat> {
     );
   }
 
-  factory CachedStat.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory CachedStat.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return CachedStat(
       tmdbId: serializer.fromJson<int>(json['tmdbId']),
@@ -822,18 +771,10 @@ class CachedStat extends DataClass implements Insertable<CachedStat> {
     return CachedStat(
       tmdbId: data.tmdbId.present ? data.tmdbId.value : this.tmdbId,
       rawVotes: data.rawVotes.present ? data.rawVotes.value : this.rawVotes,
-      totalWeight: data.totalWeight.present
-          ? data.totalWeight.value
-          : this.totalWeight,
-      sceneWeight: data.sceneWeight.present
-          ? data.sceneWeight.value
-          : this.sceneWeight,
-      worthWeight: data.worthWeight.present
-          ? data.worthWeight.value
-          : this.worthWeight,
-      worthTotal: data.worthTotal.present
-          ? data.worthTotal.value
-          : this.worthTotal,
+      totalWeight: data.totalWeight.present ? data.totalWeight.value : this.totalWeight,
+      sceneWeight: data.sceneWeight.present ? data.sceneWeight.value : this.sceneWeight,
+      worthWeight: data.worthWeight.present ? data.worthWeight.value : this.worthWeight,
+      worthTotal: data.worthTotal.present ? data.worthTotal.value : this.worthTotal,
       fetchedAt: data.fetchedAt.present ? data.fetchedAt.value : this.fetchedAt,
     );
   }
@@ -983,8 +924,7 @@ class CachedStatsCompanion extends UpdateCompanion<CachedStat> {
   }
 }
 
-class $FeedEntriesTable extends FeedEntries
-    with TableInfo<$FeedEntriesTable, FeedEntry> {
+class $FeedEntriesTable extends FeedEntries with TableInfo<$FeedEntriesTable, FeedEntry> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -998,9 +938,7 @@ class $FeedEntriesTable extends FeedEntries
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _positionMeta = const VerificationMeta(
-    'position',
-  );
+  static const VerificationMeta _positionMeta = const VerificationMeta('position');
   @override
   late final GeneratedColumn<int> position = GeneratedColumn<int>(
     'position',
@@ -1018,9 +956,7 @@ class $FeedEntriesTable extends FeedEntries
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _fetchedAtMeta = const VerificationMeta(
-    'fetchedAt',
-  );
+  static const VerificationMeta _fetchedAtMeta = const VerificationMeta('fetchedAt');
   @override
   late final GeneratedColumn<DateTime> fetchedAt = GeneratedColumn<DateTime>(
     'fetched_at',
@@ -1044,10 +980,7 @@ class $FeedEntriesTable extends FeedEntries
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('page')) {
-      context.handle(
-        _pageMeta,
-        page.isAcceptableOrUnknown(data['page']!, _pageMeta),
-      );
+      context.handle(_pageMeta, page.isAcceptableOrUnknown(data['page']!, _pageMeta));
     } else if (isInserting) {
       context.missing(_pageMeta);
     }
@@ -1139,10 +1072,7 @@ class FeedEntry extends DataClass implements Insertable<FeedEntry> {
     );
   }
 
-  factory FeedEntry.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory FeedEntry.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return FeedEntry(
       page: serializer.fromJson<int>(json['page']),
@@ -1162,17 +1092,13 @@ class FeedEntry extends DataClass implements Insertable<FeedEntry> {
     };
   }
 
-  FeedEntry copyWith({
-    int? page,
-    int? position,
-    int? tmdbId,
-    DateTime? fetchedAt,
-  }) => FeedEntry(
-    page: page ?? this.page,
-    position: position ?? this.position,
-    tmdbId: tmdbId ?? this.tmdbId,
-    fetchedAt: fetchedAt ?? this.fetchedAt,
-  );
+  FeedEntry copyWith({int? page, int? position, int? tmdbId, DateTime? fetchedAt}) =>
+      FeedEntry(
+        page: page ?? this.page,
+        position: position ?? this.position,
+        tmdbId: tmdbId ?? this.tmdbId,
+        fetchedAt: fetchedAt ?? this.fetchedAt,
+      );
   FeedEntry copyWithCompanion(FeedEntriesCompanion data) {
     return FeedEntry(
       page: data.page.present ? data.page.value : this.page,
@@ -1309,9 +1235,7 @@ class $SearchEntriesTable extends SearchEntries
     type: DriftSqlType.string,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _positionMeta = const VerificationMeta(
-    'position',
-  );
+  static const VerificationMeta _positionMeta = const VerificationMeta('position');
   @override
   late final GeneratedColumn<int> position = GeneratedColumn<int>(
     'position',
@@ -1329,9 +1253,7 @@ class $SearchEntriesTable extends SearchEntries
     type: DriftSqlType.int,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _fetchedAtMeta = const VerificationMeta(
-    'fetchedAt',
-  );
+  static const VerificationMeta _fetchedAtMeta = const VerificationMeta('fetchedAt');
   @override
   late final GeneratedColumn<DateTime> fetchedAt = GeneratedColumn<DateTime>(
     'fetched_at',
@@ -1355,10 +1277,7 @@ class $SearchEntriesTable extends SearchEntries
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('query')) {
-      context.handle(
-        _queryMeta,
-        query.isAcceptableOrUnknown(data['query']!, _queryMeta),
-      );
+      context.handle(_queryMeta, query.isAcceptableOrUnknown(data['query']!, _queryMeta));
     } else if (isInserting) {
       context.missing(_queryMeta);
     }
@@ -1450,10 +1369,7 @@ class SearchEntry extends DataClass implements Insertable<SearchEntry> {
     );
   }
 
-  factory SearchEntry.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory SearchEntry.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return SearchEntry(
       query: serializer.fromJson<String>(json['query']),
@@ -1605,8 +1521,7 @@ class SearchEntriesCompanion extends UpdateCompanion<SearchEntry> {
   }
 }
 
-class $LocalVotesTable extends LocalVotes
-    with TableInfo<$LocalVotesTable, LocalVote> {
+class $LocalVotesTable extends LocalVotes with TableInfo<$LocalVotesTable, LocalVote> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -1620,9 +1535,7 @@ class $LocalVotesTable extends LocalVotes
     type: DriftSqlType.int,
     requiredDuringInsert: false,
   );
-  static const VerificationMeta _hasSceneMeta = const VerificationMeta(
-    'hasScene',
-  );
+  static const VerificationMeta _hasSceneMeta = const VerificationMeta('hasScene');
   @override
   late final GeneratedColumn<bool> hasScene = GeneratedColumn<bool>(
     'has_scene',
@@ -1634,9 +1547,7 @@ class $LocalVotesTable extends LocalVotes
       'CHECK ("has_scene" IN (0, 1))',
     ),
   );
-  static const VerificationMeta _worthItMeta = const VerificationMeta(
-    'worthIt',
-  );
+  static const VerificationMeta _worthItMeta = const VerificationMeta('worthIt');
   @override
   late final GeneratedColumn<bool> worthIt = GeneratedColumn<bool>(
     'worth_it',
@@ -1648,9 +1559,7 @@ class $LocalVotesTable extends LocalVotes
       'CHECK ("worth_it" IN (0, 1))',
     ),
   );
-  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
-    'updatedAt',
-  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta('updatedAt');
   @override
   late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
     'updated_at',
@@ -1659,9 +1568,7 @@ class $LocalVotesTable extends LocalVotes
     type: DriftSqlType.dateTime,
     requiredDuringInsert: true,
   );
-  static const VerificationMeta _pendingSyncMeta = const VerificationMeta(
-    'pendingSync',
-  );
+  static const VerificationMeta _pendingSyncMeta = const VerificationMeta('pendingSync');
   @override
   late final GeneratedColumn<bool> pendingSync = GeneratedColumn<bool>(
     'pending_sync',
@@ -1725,10 +1632,7 @@ class $LocalVotesTable extends LocalVotes
     if (data.containsKey('pending_sync')) {
       context.handle(
         _pendingSyncMeta,
-        pendingSync.isAcceptableOrUnknown(
-          data['pending_sync']!,
-          _pendingSyncMeta,
-        ),
+        pendingSync.isAcceptableOrUnknown(data['pending_sync']!, _pendingSyncMeta),
       );
     }
     return context;
@@ -1799,18 +1703,13 @@ class LocalVote extends DataClass implements Insertable<LocalVote> {
     return LocalVotesCompanion(
       tmdbId: Value(tmdbId),
       hasScene: Value(hasScene),
-      worthIt: worthIt == null && nullToAbsent
-          ? const Value.absent()
-          : Value(worthIt),
+      worthIt: worthIt == null && nullToAbsent ? const Value.absent() : Value(worthIt),
       updatedAt: Value(updatedAt),
       pendingSync: Value(pendingSync),
     );
   }
 
-  factory LocalVote.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory LocalVote.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return LocalVote(
       tmdbId: serializer.fromJson<int>(json['tmdbId']),
@@ -1851,9 +1750,7 @@ class LocalVote extends DataClass implements Insertable<LocalVote> {
       hasScene: data.hasScene.present ? data.hasScene.value : this.hasScene,
       worthIt: data.worthIt.present ? data.worthIt.value : this.worthIt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
-      pendingSync: data.pendingSync.present
-          ? data.pendingSync.value
-          : this.pendingSync,
+      pendingSync: data.pendingSync.present ? data.pendingSync.value : this.pendingSync,
     );
   }
 
@@ -1870,8 +1767,7 @@ class LocalVote extends DataClass implements Insertable<LocalVote> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(tmdbId, hasScene, worthIt, updatedAt, pendingSync);
+  int get hashCode => Object.hash(tmdbId, hasScene, worthIt, updatedAt, pendingSync);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2009,18 +1905,12 @@ class $AppSettingsTable extends AppSettings
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('key')) {
-      context.handle(
-        _keyMeta,
-        key.isAcceptableOrUnknown(data['key']!, _keyMeta),
-      );
+      context.handle(_keyMeta, key.isAcceptableOrUnknown(data['key']!, _keyMeta));
     } else if (isInserting) {
       context.missing(_keyMeta);
     }
     if (data.containsKey('value')) {
-      context.handle(
-        _valueMeta,
-        value.isAcceptableOrUnknown(data['value']!, _valueMeta),
-      );
+      context.handle(_valueMeta, value.isAcceptableOrUnknown(data['value']!, _valueMeta));
     } else if (isInserting) {
       context.missing(_valueMeta);
     }
@@ -2066,10 +1956,7 @@ class AppSetting extends DataClass implements Insertable<AppSetting> {
     return AppSettingsCompanion(key: Value(key), value: Value(value));
   }
 
-  factory AppSetting.fromJson(
-    Map<String, dynamic> json, {
-    ValueSerializer? serializer,
-  }) {
+  factory AppSetting.fromJson(Map<String, dynamic> json, {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return AppSetting(
       key: serializer.fromJson<String>(json['key']),
@@ -2108,9 +1995,7 @@ class AppSetting extends DataClass implements Insertable<AppSetting> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is AppSetting &&
-          other.key == this.key &&
-          other.value == this.value);
+      (other is AppSetting && other.key == this.key && other.value == this.value);
 }
 
 class AppSettingsCompanion extends UpdateCompanion<AppSetting> {
@@ -2339,20 +2224,14 @@ class $$CachedMoviesTableAnnotationComposer
   GeneratedColumn<String> get title =>
       $composableBuilder(column: $table.title, builder: (column) => column);
 
-  GeneratedColumn<String> get originalTitle => $composableBuilder(
-    column: $table.originalTitle,
-    builder: (column) => column,
-  );
+  GeneratedColumn<String> get originalTitle =>
+      $composableBuilder(column: $table.originalTitle, builder: (column) => column);
 
-  GeneratedColumn<String> get posterPath => $composableBuilder(
-    column: $table.posterPath,
-    builder: (column) => column,
-  );
+  GeneratedColumn<String> get posterPath =>
+      $composableBuilder(column: $table.posterPath, builder: (column) => column);
 
-  GeneratedColumn<DateTime> get releaseDate => $composableBuilder(
-    column: $table.releaseDate,
-    builder: (column) => column,
-  );
+  GeneratedColumn<DateTime> get releaseDate =>
+      $composableBuilder(column: $table.releaseDate, builder: (column) => column);
 
   GeneratedColumn<String> get overview =>
       $composableBuilder(column: $table.overview, builder: (column) => column);
@@ -2360,10 +2239,8 @@ class $$CachedMoviesTableAnnotationComposer
   GeneratedColumn<DateTime> get fetchedAt =>
       $composableBuilder(column: $table.fetchedAt, builder: (column) => column);
 
-  GeneratedColumn<DateTime> get detailsFetchedAt => $composableBuilder(
-    column: $table.detailsFetchedAt,
-    builder: (column) => column,
-  );
+  GeneratedColumn<DateTime> get detailsFetchedAt =>
+      $composableBuilder(column: $table.detailsFetchedAt, builder: (column) => column);
 }
 
 class $$CachedMoviesTableTableManager
@@ -2377,10 +2254,7 @@ class $$CachedMoviesTableTableManager
           $$CachedMoviesTableAnnotationComposer,
           $$CachedMoviesTableCreateCompanionBuilder,
           $$CachedMoviesTableUpdateCompanionBuilder,
-          (
-            CachedMovie,
-            BaseReferences<_$AppDatabase, $CachedMoviesTable, CachedMovie>,
-          ),
+          (CachedMovie, BaseReferences<_$AppDatabase, $CachedMoviesTable, CachedMovie>),
           CachedMovie,
           PrefetchHooks Function()
         > {
@@ -2435,9 +2309,8 @@ class $$CachedMoviesTableTableManager
                 fetchedAt: fetchedAt,
                 detailsFetchedAt: detailsFetchedAt,
               ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
+          withReferenceMapper: (p0) =>
+              p0.map((e) => (e.readTable(table), BaseReferences(db, table, e))).toList(),
           prefetchHooksCallback: null,
         ),
       );
@@ -2453,10 +2326,7 @@ typedef $$CachedMoviesTableProcessedTableManager =
       $$CachedMoviesTableAnnotationComposer,
       $$CachedMoviesTableCreateCompanionBuilder,
       $$CachedMoviesTableUpdateCompanionBuilder,
-      (
-        CachedMovie,
-        BaseReferences<_$AppDatabase, $CachedMoviesTable, CachedMovie>,
-      ),
+      (CachedMovie, BaseReferences<_$AppDatabase, $CachedMoviesTable, CachedMovie>),
       CachedMovie,
       PrefetchHooks Function()
     >;
@@ -2586,25 +2456,17 @@ class $$CachedStatsTableAnnotationComposer
   GeneratedColumn<int> get rawVotes =>
       $composableBuilder(column: $table.rawVotes, builder: (column) => column);
 
-  GeneratedColumn<double> get totalWeight => $composableBuilder(
-    column: $table.totalWeight,
-    builder: (column) => column,
-  );
+  GeneratedColumn<double> get totalWeight =>
+      $composableBuilder(column: $table.totalWeight, builder: (column) => column);
 
-  GeneratedColumn<double> get sceneWeight => $composableBuilder(
-    column: $table.sceneWeight,
-    builder: (column) => column,
-  );
+  GeneratedColumn<double> get sceneWeight =>
+      $composableBuilder(column: $table.sceneWeight, builder: (column) => column);
 
-  GeneratedColumn<double> get worthWeight => $composableBuilder(
-    column: $table.worthWeight,
-    builder: (column) => column,
-  );
+  GeneratedColumn<double> get worthWeight =>
+      $composableBuilder(column: $table.worthWeight, builder: (column) => column);
 
-  GeneratedColumn<double> get worthTotal => $composableBuilder(
-    column: $table.worthTotal,
-    builder: (column) => column,
-  );
+  GeneratedColumn<double> get worthTotal =>
+      $composableBuilder(column: $table.worthTotal, builder: (column) => column);
 
   GeneratedColumn<DateTime> get fetchedAt =>
       $composableBuilder(column: $table.fetchedAt, builder: (column) => column);
@@ -2621,10 +2483,7 @@ class $$CachedStatsTableTableManager
           $$CachedStatsTableAnnotationComposer,
           $$CachedStatsTableCreateCompanionBuilder,
           $$CachedStatsTableUpdateCompanionBuilder,
-          (
-            CachedStat,
-            BaseReferences<_$AppDatabase, $CachedStatsTable, CachedStat>,
-          ),
+          (CachedStat, BaseReferences<_$AppDatabase, $CachedStatsTable, CachedStat>),
           CachedStat,
           PrefetchHooks Function()
         > {
@@ -2675,9 +2534,8 @@ class $$CachedStatsTableTableManager
                 worthTotal: worthTotal,
                 fetchedAt: fetchedAt,
               ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
+          withReferenceMapper: (p0) =>
+              p0.map((e) => (e.readTable(table), BaseReferences(db, table, e))).toList(),
           prefetchHooksCallback: null,
         ),
       );
@@ -2693,10 +2551,7 @@ typedef $$CachedStatsTableProcessedTableManager =
       $$CachedStatsTableAnnotationComposer,
       $$CachedStatsTableCreateCompanionBuilder,
       $$CachedStatsTableUpdateCompanionBuilder,
-      (
-        CachedStat,
-        BaseReferences<_$AppDatabase, $CachedStatsTable, CachedStat>,
-      ),
+      (CachedStat, BaseReferences<_$AppDatabase, $CachedStatsTable, CachedStat>),
       CachedStat,
       PrefetchHooks Function()
     >;
@@ -2726,10 +2581,8 @@ class $$FeedEntriesTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get page => $composableBuilder(
-    column: $table.page,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnFilters<int> get page =>
+      $composableBuilder(column: $table.page, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get position => $composableBuilder(
     column: $table.position,
@@ -2810,10 +2663,7 @@ class $$FeedEntriesTableTableManager
           $$FeedEntriesTableAnnotationComposer,
           $$FeedEntriesTableCreateCompanionBuilder,
           $$FeedEntriesTableUpdateCompanionBuilder,
-          (
-            FeedEntry,
-            BaseReferences<_$AppDatabase, $FeedEntriesTable, FeedEntry>,
-          ),
+          (FeedEntry, BaseReferences<_$AppDatabase, $FeedEntriesTable, FeedEntry>),
           FeedEntry,
           PrefetchHooks Function()
         > {
@@ -2856,9 +2706,8 @@ class $$FeedEntriesTableTableManager
                 fetchedAt: fetchedAt,
                 rowid: rowid,
               ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
+          withReferenceMapper: (p0) =>
+              p0.map((e) => (e.readTable(table), BaseReferences(db, table, e))).toList(),
           prefetchHooksCallback: null,
         ),
       );
@@ -2988,10 +2837,7 @@ class $$SearchEntriesTableTableManager
           $$SearchEntriesTableAnnotationComposer,
           $$SearchEntriesTableCreateCompanionBuilder,
           $$SearchEntriesTableUpdateCompanionBuilder,
-          (
-            SearchEntry,
-            BaseReferences<_$AppDatabase, $SearchEntriesTable, SearchEntry>,
-          ),
+          (SearchEntry, BaseReferences<_$AppDatabase, $SearchEntriesTable, SearchEntry>),
           SearchEntry,
           PrefetchHooks Function()
         > {
@@ -3034,9 +2880,8 @@ class $$SearchEntriesTableTableManager
                 fetchedAt: fetchedAt,
                 rowid: rowid,
               ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
+          withReferenceMapper: (p0) =>
+              p0.map((e) => (e.readTable(table), BaseReferences(db, table, e))).toList(),
           prefetchHooksCallback: null,
         ),
       );
@@ -3052,10 +2897,7 @@ typedef $$SearchEntriesTableProcessedTableManager =
       $$SearchEntriesTableAnnotationComposer,
       $$SearchEntriesTableCreateCompanionBuilder,
       $$SearchEntriesTableUpdateCompanionBuilder,
-      (
-        SearchEntry,
-        BaseReferences<_$AppDatabase, $SearchEntriesTable, SearchEntry>,
-      ),
+      (SearchEntry, BaseReferences<_$AppDatabase, $SearchEntriesTable, SearchEntry>),
       SearchEntry,
       PrefetchHooks Function()
     >;
@@ -3076,8 +2918,7 @@ typedef $$LocalVotesTableUpdateCompanionBuilder =
       Value<bool> pendingSync,
     });
 
-class $$LocalVotesTableFilterComposer
-    extends Composer<_$AppDatabase, $LocalVotesTable> {
+class $$LocalVotesTableFilterComposer extends Composer<_$AppDatabase, $LocalVotesTable> {
   $$LocalVotesTableFilterComposer({
     required super.$db,
     required super.$table,
@@ -3167,10 +3008,8 @@ class $$LocalVotesTableAnnotationComposer
   GeneratedColumn<DateTime> get updatedAt =>
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
 
-  GeneratedColumn<bool> get pendingSync => $composableBuilder(
-    column: $table.pendingSync,
-    builder: (column) => column,
-  );
+  GeneratedColumn<bool> get pendingSync =>
+      $composableBuilder(column: $table.pendingSync, builder: (column) => column);
 }
 
 class $$LocalVotesTableTableManager
@@ -3184,10 +3023,7 @@ class $$LocalVotesTableTableManager
           $$LocalVotesTableAnnotationComposer,
           $$LocalVotesTableCreateCompanionBuilder,
           $$LocalVotesTableUpdateCompanionBuilder,
-          (
-            LocalVote,
-            BaseReferences<_$AppDatabase, $LocalVotesTable, LocalVote>,
-          ),
+          (LocalVote, BaseReferences<_$AppDatabase, $LocalVotesTable, LocalVote>),
           LocalVote,
           PrefetchHooks Function()
         > {
@@ -3230,9 +3066,8 @@ class $$LocalVotesTableTableManager
                 updatedAt: updatedAt,
                 pendingSync: pendingSync,
               ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
+          withReferenceMapper: (p0) =>
+              p0.map((e) => (e.readTable(table), BaseReferences(db, table, e))).toList(),
           prefetchHooksCallback: null,
         ),
       );
@@ -3274,10 +3109,8 @@ class $$AppSettingsTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get key => $composableBuilder(
-    column: $table.key,
-    builder: (column) => ColumnFilters(column),
-  );
+  ColumnFilters<String> get key =>
+      $composableBuilder(column: $table.key, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get value => $composableBuilder(
     column: $table.value,
@@ -3332,10 +3165,7 @@ class $$AppSettingsTableTableManager
           $$AppSettingsTableAnnotationComposer,
           $$AppSettingsTableCreateCompanionBuilder,
           $$AppSettingsTableUpdateCompanionBuilder,
-          (
-            AppSetting,
-            BaseReferences<_$AppDatabase, $AppSettingsTable, AppSetting>,
-          ),
+          (AppSetting, BaseReferences<_$AppDatabase, $AppSettingsTable, AppSetting>),
           AppSetting,
           PrefetchHooks Function()
         > {
@@ -3361,14 +3191,9 @@ class $$AppSettingsTableTableManager
                 required String key,
                 required String value,
                 Value<int> rowid = const Value.absent(),
-              }) => AppSettingsCompanion.insert(
-                key: key,
-                value: value,
-                rowid: rowid,
-              ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
-              .toList(),
+              }) => AppSettingsCompanion.insert(key: key, value: value, rowid: rowid),
+          withReferenceMapper: (p0) =>
+              p0.map((e) => (e.readTable(table), BaseReferences(db, table, e))).toList(),
           prefetchHooksCallback: null,
         ),
       );
@@ -3384,10 +3209,7 @@ typedef $$AppSettingsTableProcessedTableManager =
       $$AppSettingsTableAnnotationComposer,
       $$AppSettingsTableCreateCompanionBuilder,
       $$AppSettingsTableUpdateCompanionBuilder,
-      (
-        AppSetting,
-        BaseReferences<_$AppDatabase, $AppSettingsTable, AppSetting>,
-      ),
+      (AppSetting, BaseReferences<_$AppDatabase, $AppSettingsTable, AppSetting>),
       AppSetting,
       PrefetchHooks Function()
     >;
