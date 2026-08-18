@@ -59,3 +59,9 @@ CLAUDE.md
 GEMINI.md
 AGENTS.md
 .claude/
+
+# Generated Flutter web artifacts; they inflate GitHub language stats but are not app source.
+/web/*.js
+/web/**/*.js
+/web/*.wasm
+/web/**/*.wasm
