@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Same explicit colour as the pre-v21 drawable; see values/styles.xml. -->
+    <item android:drawable="@color/stingers_background" />
+</layer-list>

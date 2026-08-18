@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    Replaced by the value of `flutter build --base-href`. Leave as-is unless the app is
+    served from a subdirectory.
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description"
+        content="Does this film have a scene after the credits, and is it worth waiting for?">
+
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Stingers">
+  <meta name="theme-color" content="#0A0A0B">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Stingers</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!--
+    The page is painted before Flutter has loaded a single byte. Without this the
+    browser shows its default white canvas first, which is the one frame this app must
+    never produce. #0A0A0B matches AppPalette.dark.background.
+  -->
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #0A0A0B;
+    }
+  </style>
+</head>
+<body>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>

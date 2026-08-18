@@ -1,0 +1,82 @@
+name: CI
+
+# Enforces exactly the three gates that gate "done" locally — analyze, format, test —
+# so nothing passes here that would fail on a developer's machine or vice versa.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: pubspec.yaml
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      # Drift and gen-l10n output is committed. Regenerating and then checking the tree
+      # is what catches a schema change that was never regenerated.
+      - run: dart run build_runner build
+      - run: flutter gen-l10n
+      - name: Generated code is up to date
+        run: git diff --exit-code
+
+      - run: flutter analyze
+      - run: dart format --set-exit-if-changed .
+      - run: flutter test
+
+  # The Edge Functions are the only place in the system where a control can exist at
+  # all, and they are not Dart, so the job above never sees them.
+  edge-functions:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: supabase/functions
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      # `check` is the one that matters: these files are deployed straight from source,
+      # so a type error ships.
+      - run: deno check vote/index.ts tmdb/index.ts
+      - run: deno lint
+      - run: deno fmt --check
+      - run: deno test
+
+  build-android:
+    runs-on: ubuntu-latest
+    needs: check
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: pubspec.yaml
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      # Placeholder values: this job proves the app compiles, not that it talks to
+      # anything. Real keys never enter CI — the anon key is publishable, but there is
+      # no reason for a build check to carry one.
+      - run: >
+          flutter build apk --debug
+          --dart-define=SUPABASE_URL=https://example.supabase.co
+          --dart-define=SUPABASE_ANON_KEY=ci

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Must stay in step with AppPalette.dark.background in lib/core/theme/app_theme.dart.
+      Flutter's theme cannot reach the launch window, so this is the only thing standing
+      between a cold start in a dark auditorium and a white flash.
+    -->
+    <color name="stingers_background">#FF0A0A0B</color>
+</resources>

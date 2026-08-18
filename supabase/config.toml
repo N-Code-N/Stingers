@@ -1,0 +1,18 @@
+project_id = "stingers"
+
+[auth]
+enabled = true
+# Anonymous sign-in is the product decision: a login screen between a person and their
+# vote costs more votes than it saves. See PROJECT_PLAN.md §1.
+enable_anonymous_sign_ins = true
+
+[auth.rate_limit]
+# Blunts the naive "mint a thousand users a minute" script. It is not the control —
+# the control is that a minted user still cannot write to `votes` (see functions/vote).
+anonymous_users = 30
+
+[functions.tmdb]
+verify_jwt = true
+
+[functions.vote]
+verify_jwt = true

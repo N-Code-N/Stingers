@@ -1,0 +1,4 @@
+# Supabase CLI local state. Written by `supabase link` and never useful to anyone else:
+# it names the linked project, its organisation and the pooler connection string.
+.branches
+.temp

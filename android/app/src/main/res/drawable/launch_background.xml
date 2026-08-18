@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- An explicit colour, not @android:color/white and not ?android:colorBackground:
+         the launch window must be dark regardless of what the OS theme says. -->
+    <item android:drawable="@color/stingers_background" />
+</layer-list>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      This file is the light-mode variant, and it is deliberately identical to
+      values-night. The app has no light theme: the OS being in light mode must not
+      produce a single lit frame, because the only place this app matters is a dark
+      cinema. The default Flutter template shipped Theme.Light here with a white
+      windowBackground, which is exactly the failure being prevented.
+    -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@drawable/launch_background</item>
+    </style>
+
+    <!-- Applied once the process has started, and behind the Flutter UI while it runs. -->
+    <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@color/stingers_background</item>
+    </style>
+</resources>

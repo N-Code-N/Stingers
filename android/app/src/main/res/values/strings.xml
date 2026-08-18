@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The launcher name. Identical in every locale the app ships, so there is no
+         values-ru variant to keep in sync. -->
+    <string name="app_name">Stingers</string>
+</resources>

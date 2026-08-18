@@ -1,0 +1,99 @@
+{
+  "@@locale": "ru",
+
+  "appTitle": "Stingers",
+
+  "navSearch": "Поиск",
+  "navMyVotes": "Мои голоса",
+
+  "commonRetry": "Повторить",
+  "commonCancel": "Отмена",
+  "commonClose": "Закрыть",
+  "commonSkip": "Пропустить",
+
+  "errorGeneric": "Что-то пошло не так.",
+  "errorOffline": "Нет соединения.",
+  "errorNotFound": "Не найдено.",
+  "errorSession": "Не удалось начать сессию. Проверьте соединение и попробуйте снова.",
+  "errorUpstream": "База фильмов сейчас не отвечает.",
+  "errorVoteRejected": "Голос не засчитан. Попробуйте чуть позже.",
+  "errorNotConfigured": "Приложение собрано без бэкенда. Передайте SUPABASE_URL и SUPABASE_ANON_KEY.",
+
+  "feedEmpty": "Сейчас ничего не идёт.",
+  "feedEmptyOffline": "Ничего ещё не загружено. Подключитесь один раз, чтобы наполнить ленту.",
+  "feedStale": "Данные от {time}",
+  "@feedStale": {
+    "description": "Banner shown when the feed is being served from the cache",
+    "placeholders": {
+      "time": { "type": "String" }
+    }
+  },
+
+  "badgeScene": "Есть сцена",
+  "badgeNoScene": "Нет сцены",
+  "badgeUnknown": "Неизвестно",
+
+  "detailsSceneYes": "После титров есть сцена",
+  "detailsSceneNo": "После титров сцены нет",
+  "detailsSceneUnknown": "Голосов пока мало",
+  "detailsSceneUnknownHint": "Скажите одним из первых — это одно касание.",
+  "detailsSceneConfidence": "{percent}% проголосовавших согласны",
+  "@detailsSceneConfidence": {
+    "description": "Confidence in the verdict. Deliberately carries no vote count: the numbers behind it are sums of trust weight, not people, so any count would be a wrong number.",
+    "placeholders": {
+      "percent": { "type": "int" }
+    }
+  },
+
+  "detailsWorthYes": "Стоит дождаться",
+  "detailsWorthNo": "Ждать не стоит",
+  "detailsWorthConfidence": "{percent}% из тех, кто видел",
+  "@detailsWorthConfidence": {
+    "placeholders": {
+      "percent": { "type": "int" }
+    }
+  },
+
+  "detailsVoteQuestion": "После титров в этом фильме была сцена?",
+  "detailsVoteYes": "Да, была",
+  "detailsVoteNo": "Нет, не было",
+  "detailsWorthQuestion": "Её стоило дождаться?",
+  "detailsWorthYesAction": "Стоило",
+  "detailsWorthNoAction": "Не стоило",
+  "detailsYourVote": "Ваш голос",
+  "detailsChangeVote": "Изменить",
+  "detailsVoteQueued": "Сохранено. Отправим, когда появится сеть.",
+  "detailsOverview": "О фильме",
+  "detailsNoOverview": "Описания нет.",
+
+  "searchHint": "Название фильма",
+  "searchPrompt": "Найдите фильм, чтобы проверить или проголосовать.",
+  "searchEmpty": "По запросу «{query}» ничего не найдено.",
+  "@searchEmpty": {
+    "placeholders": {
+      "query": { "type": "String" }
+    }
+  },
+  "searchEmptyOffline": "Без сети доступны только те фильмы, которые вы уже искали.",
+
+  "myVotesEmpty": "Вы ещё не голосовали.",
+  "myVotesEmptyHint": "Откройте фильм и скажите, есть ли в нём сцена после титров.",
+  "myVotesPending": "Ожидает отправки",
+  "myVotesSceneYes": "Вы сказали: сцена есть",
+  "myVotesSceneNo": "Вы сказали: сцены нет",
+  "myVotesWorthYes": "Стоит дождаться",
+  "myVotesWorthNo": "Ждать не стоит",
+
+  "settingsTitle": "Настройки",
+  "settingsCinemaMode": "Кинорежим",
+  "settingsCinemaModeHint": "Чёрный фон и приглушённый экран — для тёмного зала.",
+  "settingsLanguage": "Язык",
+  "settingsLanguageHint": "Интерфейс и описания фильмов.",
+  "settingsLanguageSystem": "Язык системы",
+  "settingsLanguageEnglish": "English",
+  "settingsLanguageRussian": "Русский",
+  "settingsMyVotes": "Мои голоса",
+  "settingsMyVotesHint": "Всё, за что вы голосовали.",
+
+  "aboutTmdbAttribution": "This product uses the TMDB API but is not endorsed or certified by TMDB."
+}
