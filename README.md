@@ -21,15 +21,13 @@ iOS · Android · macOS · Windows · Linux · Web
 
 ## Screenshots
 
-![Feed](docs/screenshots/list.png)
-
-![Movie details](docs/screenshots/movie1.png)
-
-![Movie detail with verdict](docs/screenshots/movie2.png)
-
-![Search and settings](docs/screenshots/search.png)
-
-![Settings](docs/screenshots/settings.png)
+<p align="left">
+  <img src="docs/screenshots/list.png" width="220" alt="Feed" />
+  <img src="docs/screenshots/movie1.png" width="220" alt="Movie details" />
+  <img src="docs/screenshots/movie2.png" width="220" alt="Movie detail with verdict" />
+  <img src="docs/screenshots/search.png" width="220" alt="Search and settings" />
+  <img src="docs/screenshots/settings.png" width="220" alt="Settings" />
+</p>
 
 ---
 
