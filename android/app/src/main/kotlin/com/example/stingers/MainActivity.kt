@@ -17,6 +17,13 @@ import io.flutter.plugin.common.MethodChannel
 /// project number, and a server able to exchange the token with Google; until that
 /// exists the Dart side treats the missing method as `unavailable`, which is a designed
 /// state, not a failure.
+///
+/// This is the only file allowed to declare `MainActivity`, and its directory has to
+/// keep matching the `package` line above and the `namespace` in `app/build.gradle.kts`.
+/// Kotlin binds a class to its `package`, not to its path, so a copy of this file in
+/// another directory is a second `com.example.stingers.MainActivity` in the same source
+/// set and the build stops at `Redeclaration: class MainActivity` — which is exactly what
+/// a stray copy under a renamed package directory did until it was deleted.
 class MainActivity : FlutterActivity() {
     private companion object {
         const val CHANNEL = "stingers/integrity"
