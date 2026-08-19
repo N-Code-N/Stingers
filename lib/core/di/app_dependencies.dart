@@ -21,29 +21,29 @@ import '../theme/cinema_mode.dart';
 /// The composition root. Everything is constructed once, here, and injected downwards —
 /// there is no service locator and nothing reaches for a global.
 ///
-/// Only three things live at this level, and each because more than one consumer needs
-/// the *same* instance: the session (read by the API client on every request), the
-/// locale controller (read by `MaterialApp` and by every outgoing request), and cinema
-/// mode (read by `MaterialApp` for the theme, written by the movie screen). Screen state
-/// stays owned by its screen.
+/// A field earns its place here only by being *read* after `bootstrap` returns: the
+/// session (by [startSession]), the locale controller and cinema mode (by `MaterialApp`,
+/// and the locale by every outgoing request), and the repository (by every screen).
+/// Screen state stays owned by its screen.
+///
+/// Everything else the graph needs is reachable from the object that uses it and is not
+/// mirrored here. Holding a second reference for its own sake buys nothing: nothing in
+/// the graph is kept alive by this object — `PendingVoteSync` by the observer list it
+/// registers itself in, the database and API client by the repository chain that closes
+/// over them — and there is no shutdown path to hand them to. When one appears it can
+/// bring the handles it needs back with it.
 class AppDependencies {
   AppDependencies._({
-    required this.database,
-    required this.apiClient,
     required this.session,
     required this.locale,
     required this.cinemaMode,
     required this.movieRepository,
-    required this.voteSync,
   });
 
-  final AppDatabase database;
-  final ApiClient apiClient;
   final AnonSession session;
   final AppLocaleController locale;
   final CinemaMode cinemaMode;
   final MovieRepository movieRepository;
-  final PendingVoteSync voteSync;
 
   /// Builds the graph. `supabase` and `httpClient` are parameters rather than globals so
   /// an integration test can hand in fakes without touching platform channels.
@@ -84,16 +84,15 @@ class AppDependencies {
       persist: (enabled) => database.writeSetting(SettingKeys.cinemaMode, '$enabled'),
     );
 
-    final voteSync = PendingVoteSync(repository: repository, session: session)..start();
+    // Not held onto: `start()` registers it with `WidgetsBinding`, which is what keeps it
+    // alive and what would have to hand it back for a `stop()` this app never calls.
+    PendingVoteSync(repository: repository, session: session).start();
 
     return AppDependencies._(
-      database: database,
-      apiClient: apiClient,
       session: session,
       locale: locale,
       cinemaMode: cinemaMode,
       movieRepository: repository,
-      voteSync: voteSync,
     );
   }
 
