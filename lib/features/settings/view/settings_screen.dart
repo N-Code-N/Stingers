@@ -26,7 +26,6 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final languageMenuKey = GlobalKey<PopupMenuButtonState<Locale?>>();
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.settingsTitle)),
@@ -60,7 +59,6 @@ class SettingsScreen extends StatelessWidget {
                     builder: (context, _) => SizedBox(
                       width: double.infinity,
                       child: PopupMenuButton<Locale?>(
-                        key: languageMenuKey,
                         padding: EdgeInsets.zero,
                         initialValue: locale.locale,
                         position: PopupMenuPosition.under,
@@ -79,6 +77,9 @@ class SettingsScreen extends StatelessWidget {
                             child: Text(l10n.settingsLanguageRussian),
                           ),
                         ],
+                        // No `onTap`: the tile is the button's own child, so the
+                        // button opens the menu itself. A tile with its own `onTap`
+                        // swallows the tap before the button ever sees it.
                         child: ListTile(
                           contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                           leading: const Icon(Icons.language),
@@ -91,7 +92,6 @@ class SettingsScreen extends StatelessWidget {
                                 : l10n.settingsLanguageEnglish,
                           ),
                           trailing: const Icon(Icons.arrow_drop_down),
-                          onTap: () => languageMenuKey.currentState?.showButtonMenu(),
                         ),
                       ),
                     ),
