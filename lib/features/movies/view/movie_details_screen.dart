@@ -7,6 +7,7 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/widgets/error_view.dart';
 import '../../../core/widgets/loading_view.dart';
 import '../../../core/widgets/poster_image.dart';
+import '../../../core/widgets/reveal.dart';
 import '../../../core/widgets/state_fade.dart';
 import '../data/movie_models.dart';
 import '../data/movie_repository.dart';
@@ -122,7 +123,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
 
     return _DetailsBody(
       key: ValueKey(bodyKey),
-      localeGeneration: widget.locale.generation,
       hideMedia: _controller.isLoading,
       details: details,
       hasFullDetails: _controller.hasFullDetails,
@@ -136,10 +136,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   }
 }
 
-class _DetailsBody extends StatefulWidget {
+class _DetailsBody extends StatelessWidget {
   const _DetailsBody({
     super.key,
-    required this.localeGeneration,
     required this.hideMedia,
     required this.details,
     required this.hasFullDetails,
@@ -151,7 +150,6 @@ class _DetailsBody extends StatefulWidget {
     required this.onWorthIt,
   });
 
-  final int localeGeneration;
   final bool hideMedia;
   final MovieDetails details;
   final bool hasFullDetails;
@@ -163,76 +161,30 @@ class _DetailsBody extends StatefulWidget {
   final ValueChanged<bool> onWorthIt;
 
   @override
-  State<_DetailsBody> createState() => _DetailsBodyState();
-}
-
-class _DetailsBodyState extends State<_DetailsBody> {
-  bool _overviewVisible = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _applyOverviewVisibility();
-  }
-
-  void _applyOverviewVisibility() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      setState(() {
-        _overviewVisible = true;
-      });
-    });
-  }
-
-  @override
-  void didUpdateWidget(covariant _DetailsBody oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    final oldMovie = oldWidget.details.movie;
-    final newMovie = widget.details.movie;
-    final localeChanged = oldWidget.localeGeneration != widget.localeGeneration;
-    final overviewChanged =
-        oldMovie.overview != newMovie.overview || oldMovie.tmdbId != newMovie.tmdbId;
-
-    if (localeChanged || overviewChanged) {
-      _overviewVisible = false;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        setState(() {
-          _overviewVisible = true;
-        });
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = context.l10n;
-    final movie = widget.details.movie;
-    final year = movie.releaseYear;
-    final languageCode = Localizations.localeOf(context).languageCode;
-    final overviewKey =
-        'overview-$movie.tmdbId-$languageCode-${widget.details.detailsFetchedAt?.millisecondsSinceEpoch ?? 0}';
-    final posterPath = widget.hideMedia ? null : movie.posterPath;
+    final movie = details.movie;
+    final posterPath = hideMedia ? null : movie.posterPath;
 
     return ListView(
-      controller: widget.scrollController,
+      controller: scrollController,
       padding: const EdgeInsets.fromLTRB(20, 8, 20, 40),
       children: [
         // The verdict comes first and largest. Poster and description are detail, and
         // detail belongs below it.
         VerdictPanel(
-          stats: widget.statsWhileVoting ?? widget.details.stats,
-          isLoading: widget.isLoading,
-          isVoting: widget.isVoting,
+          stats: statsWhileVoting ?? details.stats,
+          isLoading: isLoading,
+          isVoting: isVoting,
         ),
         const SizedBox(height: 32),
         Divider(color: theme.colorScheme.outline),
         const SizedBox(height: 24),
         VotePanel(
-          vote: widget.details.myVote,
-          onHasScene: widget.onHasScene,
-          onWorthIt: widget.onWorthIt,
+          vote: details.myVote,
+          onHasScene: onHasScene,
+          onWorthIt: onWorthIt,
         ),
         const SizedBox(height: 32),
         Row(
@@ -248,7 +200,7 @@ class _DetailsBodyState extends State<_DetailsBody> {
             Expanded(
               child: MovieTitleStack(
                 movie: movie,
-                year: year,
+                year: movie.releaseYear,
                 titleStyle: theme.textTheme.titleLarge,
                 subtitleStyle: theme.textTheme.bodySmall?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
@@ -257,31 +209,26 @@ class _DetailsBodyState extends State<_DetailsBody> {
             ),
           ],
         ),
-        if (!widget.hideMedia &&
-            widget.hasFullDetails &&
-            _overviewVisible &&
-            movie.overview.isNotEmpty) ...[
-          const SizedBox(height: 24),
-          AnimatedOpacity(
-            duration: const Duration(milliseconds: 700),
-            curve: Curves.easeOutCubic,
-            opacity: 1,
-            child: Column(
-              key: ValueKey(overviewKey),
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(l10n.detailsOverview, style: theme.textTheme.titleMedium),
-                const SizedBox(height: 8),
-                Text(
-                  movie.overview,
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
+        // The description arrives a round trip after the rest of the screen, so it grows
+        // in rather than shoving the page around between two frames. Same widget as the
+        // second vote question, and it obeys the same reduce-motion rule.
+        Reveal(
+          visible: !hideMedia && hasFullDetails && movie.overview.isNotEmpty,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 24),
+              Text(l10n.detailsOverview, style: theme.textTheme.titleMedium),
+              const SizedBox(height: 8),
+              Text(
+                movie.overview,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ],
     );
   }

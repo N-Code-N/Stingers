@@ -174,8 +174,32 @@ void main() {
     expect(find.text('Did this film have a scene after the credits?'), findsOneWidget);
   });
 
-  testWidgets('keeps a cached overview hidden until the page has opened', (tester) async {
+  testWidgets('grows the description in when it arrives after the page opened', (
+    tester,
+  ) async {
+    const overview = 'A desert empire finds its destiny.';
+    Size revealed() => tester.getSize(
+      find
+          .ancestor(of: find.text(overview), matching: find.byType(SizeTransition))
+          .first,
+    );
+
     await pump(tester);
+
+    // First emit: the film is known from a list read, so there is no description yet.
+    repository.movie.add(
+      MovieDetails(
+        movie: fakeMovie(7, 'Dune'),
+        stats: SceneStats.empty,
+        myVote: null,
+        detailsFetchedAt: null,
+      ),
+    );
+    await tester.pump();
+    expect(find.text(overview), findsNothing);
+
+    // The details read lands. The block must grow into the layout rather than appear
+    // between two frames and shove the page down.
     repository.movie.add(
       MovieDetails(
         movie: Movie(
@@ -184,7 +208,7 @@ void main() {
           posterPath: null,
           releaseDate: null,
           originalTitle: '',
-          overview: 'A desert empire finds its destiny.',
+          overview: overview,
         ),
         stats: SceneStats.empty,
         myVote: null,
@@ -192,10 +216,11 @@ void main() {
       ),
     );
     await tester.pump();
+    expect(revealed().height, 0);
 
-    expect(find.text('A desert empire finds its destiny.'), findsNothing);
-    await tester.pump(const Duration(milliseconds: 600));
-    expect(find.text('A desert empire finds its destiny.'), findsOneWidget);
+    await tester.pumpAndSettle();
+    expect(revealed().height, greaterThan(0));
+    expect(find.text(overview), findsOneWidget);
   });
 
   testWidgets('keeps old overview text hidden until the new localized one is ready', (
