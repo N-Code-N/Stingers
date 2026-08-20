@@ -15,16 +15,10 @@ import '../../data/movie_models.dart';
 /// it must be readable in the first frame. The motion is reserved for the answer
 /// *changing* under the reader, which is what happens the moment they vote.
 class VerdictPanel extends StatelessWidget {
-  const VerdictPanel({
-    super.key,
-    required this.stats,
-    this.isLoading = false,
-    this.isVoting = false,
-  });
+  const VerdictPanel({super.key, required this.stats, this.isLoading = false});
 
   final SceneStats stats;
   final bool isLoading;
-  final bool isVoting;
 
   @override
   Widget build(BuildContext context) {

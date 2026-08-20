@@ -127,8 +127,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
       details: details,
       hasFullDetails: _controller.hasFullDetails,
       isLoading: _controller.isLoading,
-      isVoting: _controller.isVoting,
-      statsWhileVoting: _controller.statsWhileVoting,
+      displayStats: _controller.displayStats,
       scrollController: _scroll,
       onHasScene: _controller.setHasScene,
       onWorthIt: _controller.setWorthIt,
@@ -143,8 +142,7 @@ class _DetailsBody extends StatelessWidget {
     required this.details,
     required this.hasFullDetails,
     required this.isLoading,
-    required this.isVoting,
-    required this.statsWhileVoting,
+    required this.displayStats,
     required this.scrollController,
     required this.onHasScene,
     required this.onWorthIt,
@@ -154,8 +152,7 @@ class _DetailsBody extends StatelessWidget {
   final MovieDetails details;
   final bool hasFullDetails;
   final bool isLoading;
-  final bool isVoting;
-  final SceneStats? statsWhileVoting;
+  final SceneStats displayStats;
   final ScrollController scrollController;
   final ValueChanged<bool> onHasScene;
   final ValueChanged<bool> onWorthIt;
@@ -173,11 +170,7 @@ class _DetailsBody extends StatelessWidget {
       children: [
         // The verdict comes first and largest. Poster and description are detail, and
         // detail belongs below it.
-        VerdictPanel(
-          stats: statsWhileVoting ?? details.stats,
-          isLoading: isLoading,
-          isVoting: isVoting,
-        ),
+        VerdictPanel(stats: displayStats, isLoading: isLoading),
         const SizedBox(height: 32),
         Divider(color: theme.colorScheme.outline),
         const SizedBox(height: 24),

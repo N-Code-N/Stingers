@@ -116,6 +116,27 @@ void main() {
     expect(errors, isEmpty);
   });
 
+  test('the verdict moves on the tap and then stays put for this visit', () async {
+    await controller.load();
+    repository.movie.add(details(stats: fakeStats(total: 4, scene: 3)));
+    await pumpEventQueue();
+    expect(controller.displayStats.sceneWeight, 3);
+
+    // The tap itself, before anything has reached the network.
+    final pending = controller.setHasScene(true);
+    expect(controller.displayStats.totalWeight, 5);
+    expect(controller.displayStats.sceneWeight, 4);
+    await pending;
+
+    // The server's real, trust-weighted recount lands in the database. It is the right
+    // number for the next visit to this film, and it must not move the verdict under the
+    // reader who answered a moment ago.
+    repository.movie.add(details(stats: fakeStats(total: 40, scene: 4)));
+    await pumpEventQueue();
+    expect(controller.displayStats.totalWeight, 5);
+    expect(controller.displayStats.sceneWeight, 4);
+  });
+
   test('a rejected vote goes to the snackbar, not the error field', () async {
     await controller.load();
     repository.castVoteFailure = const VoteRejectedException('rate limited');

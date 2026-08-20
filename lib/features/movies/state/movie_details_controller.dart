@@ -33,7 +33,13 @@ class MovieDetailsController extends ChangeNotifier {
   bool _isLoading = true;
   bool _suppressIncomingDetails = false;
   int _inFlight = 0;
-  SceneStats? _statsWhileVoting;
+
+  // Captured on the first tap of this visit: the aggregate and the vote as they stood
+  // before this screen touched them. Every later tap is folded onto this same base, so
+  // answering "yes there was" and then "worth it" cannot count the user twice.
+  SceneStats? _statsBeforeVoting;
+  MyVote? _voteBeforeVoting;
+  ({bool hasScene, bool? worthIt})? _myAnswer;
   Object? _error;
   bool _disposed = false;
 
@@ -45,9 +51,27 @@ class MovieDetailsController extends ChangeNotifier {
   /// quiet indicator.
   bool get isVoting => _inFlight > 0;
 
-  /// The stats to show while a vote is in flight: the previous values, not the
-  /// optimistically-updated ones that will change as soon as the local write completes.
-  SceneStats? get statsWhileVoting => _statsWhileVoting;
+  /// The aggregate the verdict panel renders.
+  ///
+  /// Before the user answers, whatever the database holds. From their first tap until
+  /// they leave, the answer their own tap produced — folded in here, at an assumed
+  /// weight of 1, because the client is never told its own trust score.
+  ///
+  /// The server's real recount is deliberately *not* shown on this visit. It arrives two
+  /// Edge Function round trips after the tap and the repository writes it to the database
+  /// where it belongs — but painting it here would move the verdict under a reader who
+  /// answered seconds ago, which is the one moment they are actually looking at it. They
+  /// see the real weight the next time they open the film.
+  SceneStats get displayStats {
+    final answer = _myAnswer;
+    final base = _statsBeforeVoting;
+    if (answer == null || base == null) return _details?.stats ?? SceneStats.empty;
+    return base.withOwnVote(
+      previous: _voteBeforeVoting,
+      hasScene: answer.hasScene,
+      worthIt: answer.worthIt,
+    );
+  }
 
   Object? get error => _error;
 
@@ -87,13 +111,15 @@ class MovieDetailsController extends ChangeNotifier {
   /// Answers the second question. Only reachable once the first is "yes".
   Future<void> setWorthIt(bool worthIt) => _vote(hasScene: true, worthIt: worthIt);
 
-  /// Fires immediately. The repository writes the vote locally before it queues the
-  /// delivery, so the screen repaints on this tap rather than after the previous tap's
-  /// round trip.
+  /// Fires immediately. Nothing here awaits the network: the answer is folded into
+  /// [displayStats] on this line, so the verdict has already moved by the time the
+  /// delivery starts.
   Future<void> _vote({required bool hasScene, required bool? worthIt}) {
-    // Remember the current stats so we can show them while the vote is in flight,
-    // rather than showing the optimistically-updated ones.
-    _statsWhileVoting ??= _details?.stats;
+    if (_myAnswer == null) {
+      _statsBeforeVoting = _details?.stats ?? SceneStats.empty;
+      _voteBeforeVoting = myVote;
+    }
+    _myAnswer = (hasScene: hasScene, worthIt: worthIt);
     _inFlight++;
     _notify();
     return _send(hasScene: hasScene, worthIt: worthIt);
@@ -122,9 +148,6 @@ class MovieDetailsController extends ChangeNotifier {
       reportError(e, stack);
     } finally {
       _inFlight--;
-      if (_inFlight == 0) {
-        _statsWhileVoting = null;
-      }
       _notify();
     }
   }
