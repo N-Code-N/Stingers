@@ -46,6 +46,7 @@ class VerdictPanel extends StatelessWidget {
                       ? ''
                       : l10n.detailsSceneConfidence(stats.verdictPercent),
                   emphasis: stats.hasScene,
+                  alignDetailEnd: true,
                 )
               : _Block(
                   headline: l10n.detailsSceneUnknown,
@@ -67,6 +68,7 @@ class VerdictPanel extends StatelessWidget {
                     ? ''
                     : l10n.detailsWorthConfidence(stats.worthVerdictPercent),
                 emphasis: stats.worthIt,
+                alignDetailEnd: true,
               ),
             ],
           ),
@@ -103,10 +105,20 @@ class _VerdictSwitch extends StatelessWidget {
 }
 
 class _Block extends StatelessWidget {
-  const _Block({required this.headline, required this.detail, required this.emphasis});
+  const _Block({
+    required this.headline,
+    required this.detail,
+    required this.emphasis,
+    this.alignDetailEnd = false,
+  });
 
   final String headline;
   final String detail;
+
+  /// True for the confidence figure, which hangs off the trailing edge under the
+  /// headline. Passed in rather than sniffed out of [detail]: reading the alignment off
+  /// a `%` in a localised string makes the layout depend on how a translator wrote it.
+  final bool alignDetailEnd;
 
   /// A positive verdict is the one worth lighting up; a negative one is information the
   /// user acts on by leaving, so it does not need the accent colour.
@@ -115,7 +127,6 @@ class _Block extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isPercent = detail.contains('%');
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -128,16 +139,18 @@ class _Block extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         AnimatedSwitcher(
-          duration: const Duration(milliseconds: 250),
-          switchInCurve: Curves.easeOutCubic,
-          switchOutCurve: Curves.easeInCubic,
+          // Through `AppMotion`, not a literal: cinema mode and the OS reduce-motion
+          // setting collapse this to zero like every other animation in the app.
+          duration: AppMotion.duration(context, AppMotion.medium),
+          switchInCurve: AppMotion.curve,
+          switchOutCurve: AppMotion.curve,
           transitionBuilder: (child, animation) =>
               FadeTransition(opacity: animation, child: child),
           child: detail.isEmpty
               ? const SizedBox(key: ValueKey('empty-detail'), height: 20, width: 1)
               : Align(
                   key: ValueKey(detail),
-                  alignment: isPercent
+                  alignment: alignDetailEnd
                       ? AlignmentDirectional.centerEnd
                       : AlignmentDirectional.centerStart,
                   child: Text(
