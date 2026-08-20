@@ -193,6 +193,22 @@ void main() {
   });
 
   group('SceneStats.withOwnVote', () {
+    test('a single vote does not manufacture a verdict the server will not back', () {
+      // The server weights an unattested vote from a fresh device at 0.3 x 0.4 = 0.12
+      // (supabase/functions/_shared/trust.ts). Folding it in at a weight the server would
+      // never grant is what made the card read "there is a scene, 100%" on the tap and
+      // "not enough votes yet" the next time it was opened.
+      final next = SceneStats.empty.withOwnVote(
+        previous: null,
+        hasScene: true,
+        worthIt: true,
+      );
+
+      expect(next.hasVerdict, isFalse);
+      expect(next.hasWorthVerdict, isFalse);
+      expect(next.rawVotes, 1);
+    });
+
     final base = SceneStats(
       rawVotes: 9,
       totalWeight: 9,
@@ -202,7 +218,12 @@ void main() {
     );
 
     test('a first vote adds one row and one unit of weight', () {
-      final next = base.withOwnVote(previous: null, hasScene: true, worthIt: null);
+      final next = base.withOwnVote(
+        previous: null,
+        hasScene: true,
+        worthIt: null,
+        weight: 1,
+      );
       expect(next.rawVotes, 10);
       expect(next.totalWeight, 10);
       expect(next.sceneWeight, 7);
@@ -216,7 +237,12 @@ void main() {
         worthIt: true,
         updatedAt: DateTime(2026),
       );
-      final next = base.withOwnVote(previous: previous, hasScene: false, worthIt: null);
+      final next = base.withOwnVote(
+        previous: previous,
+        hasScene: false,
+        worthIt: null,
+        weight: 1,
+      );
 
       expect(next.rawVotes, 9, reason: 'the row already existed');
       expect(next.totalWeight, 9);

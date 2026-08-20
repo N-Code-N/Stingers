@@ -122,10 +122,12 @@ void main() {
     await pumpEventQueue();
     expect(controller.displayStats.sceneWeight, 3);
 
-    // The tap itself, before anything has reached the network.
+    // The tap itself, before anything has reached the network. It moves the aggregate by
+    // what the server will actually grant the vote, not by a whole unit.
+    const own = SceneStats.assumedOwnWeight;
     final pending = controller.setHasScene(true);
-    expect(controller.displayStats.totalWeight, 5);
-    expect(controller.displayStats.sceneWeight, 4);
+    expect(controller.displayStats.totalWeight, closeTo(4 + own, 1e-9));
+    expect(controller.displayStats.sceneWeight, closeTo(3 + own, 1e-9));
     await pending;
 
     // The server's real, trust-weighted recount lands in the database. It is the right
@@ -133,8 +135,8 @@ void main() {
     // reader who answered a moment ago.
     repository.movie.add(details(stats: fakeStats(total: 40, scene: 4)));
     await pumpEventQueue();
-    expect(controller.displayStats.totalWeight, 5);
-    expect(controller.displayStats.sceneWeight, 4);
+    expect(controller.displayStats.totalWeight, closeTo(4 + own, 1e-9));
+    expect(controller.displayStats.sceneWeight, closeTo(3 + own, 1e-9));
   });
 
   test('a rejected vote goes to the snackbar, not the error field', () async {

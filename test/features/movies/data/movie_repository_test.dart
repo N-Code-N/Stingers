@@ -346,9 +346,11 @@ void main() {
       await repository.castVote(tmdbId: 7, hasScene: false, worthIt: null);
 
       final details = await repository.watchMovie(7).first;
-      expect(details!.stats.totalWeight, 10);
+      expect(details!.stats.totalWeight, closeTo(9 + SceneStats.assumedOwnWeight, 1e-9));
       expect(details.stats.sceneWeight, 9);
-      expect(details.stats.verdictPercent, 90);
+      // 9 of 9.12 still say there is a scene, so the number moves off 100 without
+      // pretending one unattested device is worth a whole unit of weight.
+      expect(details.stats.verdictPercent, 99);
     });
 
     test('offline, the vote is queued rather than lost', () async {

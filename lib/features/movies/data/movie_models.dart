@@ -159,17 +159,32 @@ class SceneStats {
 
   int get worthVerdictPercent => worthIt ? worthPercent : 100 - worthPercent;
 
+  /// What one vote from this device is assumed to weigh, mirroring what the server will
+  /// actually grant it.
+  ///
+  /// The client is never told its own trust score — that is the point of the trust model
+  /// — so this can only be an estimate. It is deliberately the *floor* of the realistic
+  /// range rather than the middle: guessing low means the server's recount can only ever
+  /// add weight, while guessing high manufactures a verdict that vanishes the next time
+  /// the card is opened.
+  ///
+  /// The number comes from `supabase/functions/_shared/trust.ts`, which multiplies its
+  /// factors: neither platform implements `attest`, so every vote lands on `unavailable`
+  /// (0.3), and a device that was created minutes ago is worth 0.4 of that. A device
+  /// older than a day reaches 0.3, so this under-counts by at most 0.18.
+  static const double assumedOwnWeight = 0.12;
+
   /// Folds the user's own vote into the aggregate so the percentage moves the instant
   /// they tap, instead of after a round trip.
   ///
-  /// [weight] is assumed to be 1.0 because the client is never told its own trust score
-  /// — that is the point of the trust model. The server's answer overwrites this a
-  /// moment later, so the assumption only has to hold for one frame.
+  /// The fold is honest about size but not about identity: it cannot know whether the
+  /// server will accept the vote at all. The server's answer replaces it on the next
+  /// visit to the film.
   SceneStats withOwnVote({
     required MyVote? previous,
     required bool hasScene,
     required bool? worthIt,
-    double weight = 1,
+    double weight = assumedOwnWeight,
   }) {
     var votes = rawVotes;
     var total = totalWeight;
