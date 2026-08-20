@@ -134,16 +134,21 @@ class ApiMovieRepository implements MovieRepository {
 
     // Here the id *is* known up front, so the two reads genuinely are independent and go
     // out together.
-    final results = await Future.wait([
-      if (needsDetails) _tmdb.details(tmdbId) else Future.value(null),
-      if (needsStats)
-        _statsOrEmpty([tmdbId])
-      else
-        Future.value(const <int, SceneStats>{}),
-    ]);
+    final Future<Movie?> detailsRequest = needsDetails
+        ? _tmdb.details(tmdbId)
+        : Future.value();
+    final Future<Map<int, SceneStats>> statsRequest = needsStats
+        ? _statsOrEmpty([tmdbId])
+        : Future.value(const {});
 
-    final movie = results[0] as Movie?;
-    final stats = results[1] as Map<int, SceneStats>;
+    // `Future.wait` does the joining because it is the only form that attaches a
+    // listener to both futures at once: awaiting them one after the other lets whichever
+    // fails first be an error nobody is listening to yet, which the framework reports as
+    // unhandled. It also rethrows the original exception, where the record's `.wait`
+    // would repackage it as a `ParallelWaitError` — not an `AppException`, so it would
+    // sail past every `on AppException` above this layer.
+    await Future.wait<void>([detailsRequest, statsRequest]);
+    final (movie, stats) = (await detailsRequest, await statsRequest);
     final at = _now();
 
     if (movie != null) await _local.saveMovieDetails(movie, at);

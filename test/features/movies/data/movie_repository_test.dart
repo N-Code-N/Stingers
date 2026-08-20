@@ -290,6 +290,19 @@ void main() {
       expect(details.stats.hasVerdict, isFalse);
     });
 
+    test('a failed details read keeps its own type on the way up', () async {
+      tmdb.movies = {7: movie(7)};
+      tmdb.failure = const UpstreamUnavailableException('tmdb is down');
+
+      // The details and the stats read are joined here, and the controller above
+      // dispatches on the exception type. A join that repackaged the failure would turn
+      // the film's error screen into an unhandled async error.
+      await expectLater(
+        repository.refreshMovie(7),
+        throwsA(isA<UpstreamUnavailableException>()),
+      );
+    });
+
     test('refreshes only the stats when the details are still fresh', () async {
       tmdb.movies = {7: movie(7)};
       votes.stats = {7: stats()};
