@@ -145,16 +145,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get myVotesPending => 'Ожидает отправки';
 
   @override
-  String get myVotesSceneYes => 'Вы сказали: сцена есть';
+  String get voteAnswerSceneYes => 'Вы сказали: сцена есть';
 
   @override
-  String get myVotesSceneNo => 'Вы сказали: сцены нет';
+  String get voteAnswerSceneNo => 'Вы сказали: сцены нет';
 
   @override
-  String get myVotesWorthYes => 'Стоит дождаться';
+  String get voteAnswerWorthYes => 'Стоит дождаться';
 
   @override
-  String get myVotesWorthNo => 'Ждать не стоит';
+  String get voteAnswerWorthNo => 'Ждать не стоит';
 
   @override
   String get settingsTitle => 'Настройки';

@@ -341,29 +341,29 @@ abstract class AppLocalizations {
   /// **'Waiting to be sent'**
   String get myVotesPending;
 
-  /// No description provided for @myVotesSceneYes.
+  /// No description provided for @voteAnswerSceneYes.
   ///
   /// In en, this message translates to:
   /// **'You said: there is a scene'**
-  String get myVotesSceneYes;
+  String get voteAnswerSceneYes;
 
-  /// No description provided for @myVotesSceneNo.
+  /// No description provided for @voteAnswerSceneNo.
   ///
   /// In en, this message translates to:
   /// **'You said: no scene'**
-  String get myVotesSceneNo;
+  String get voteAnswerSceneNo;
 
-  /// No description provided for @myVotesWorthYes.
+  /// No description provided for @voteAnswerWorthYes.
   ///
   /// In en, this message translates to:
   /// **'Worth waiting for'**
-  String get myVotesWorthYes;
+  String get voteAnswerWorthYes;
 
-  /// No description provided for @myVotesWorthNo.
+  /// No description provided for @voteAnswerWorthNo.
   ///
   /// In en, this message translates to:
   /// **'Not worth waiting for'**
-  String get myVotesWorthNo;
+  String get voteAnswerWorthNo;
 
   /// No description provided for @settingsTitle.
   ///

@@ -146,16 +146,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myVotesPending => 'Waiting to be sent';
 
   @override
-  String get myVotesSceneYes => 'You said: there is a scene';
+  String get voteAnswerSceneYes => 'You said: there is a scene';
 
   @override
-  String get myVotesSceneNo => 'You said: no scene';
+  String get voteAnswerSceneNo => 'You said: no scene';
 
   @override
-  String get myVotesWorthYes => 'Worth waiting for';
+  String get voteAnswerWorthYes => 'Worth waiting for';
 
   @override
-  String get myVotesWorthNo => 'Not worth waiting for';
+  String get voteAnswerWorthNo => 'Not worth waiting for';
 
   @override
   String get settingsTitle => 'Settings';

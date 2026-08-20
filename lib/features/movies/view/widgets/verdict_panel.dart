@@ -4,6 +4,7 @@ import '../../../../core/l10n/l10n.dart';
 import '../../../../core/motion/app_motion.dart';
 import '../../../../core/widgets/reveal.dart';
 import '../../data/movie_models.dart';
+import 'vote_answer_text.dart';
 
 /// The answer, at the size someone can read one-handed, in the dark, in two seconds.
 ///
@@ -15,9 +16,21 @@ import '../../data/movie_models.dart';
 /// it must be readable in the first frame. The motion is reserved for the answer
 /// *changing* under the reader, which is what happens the moment they vote.
 class VerdictPanel extends StatelessWidget {
-  const VerdictPanel({super.key, required this.stats, this.isLoading = false});
+  const VerdictPanel({
+    super.key,
+    required this.stats,
+    this.myVote,
+    this.isLoading = false,
+  });
 
   final SceneStats stats;
+
+  /// The reader's own answer, shown in place of the invitation to vote once they have
+  /// given one. One unattested device does not weigh enough to reach a verdict on its
+  /// own, so without this the card keeps asking someone who has already answered to
+  /// "say one of the first" — and offers them nothing back for having answered.
+  final MyVote? myVote;
+
   final bool isLoading;
 
   @override
@@ -44,7 +57,9 @@ class VerdictPanel extends StatelessWidget {
                 )
               : _Block(
                   headline: l10n.detailsSceneUnknown,
-                  detail: l10n.detailsSceneUnknownHint,
+                  detail: myVote == null
+                      ? l10n.detailsSceneUnknownHint
+                      : describeOwnVote(l10n, myVote!),
                   emphasis: false,
                 ),
         ),

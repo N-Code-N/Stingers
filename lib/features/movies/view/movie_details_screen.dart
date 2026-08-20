@@ -170,7 +170,7 @@ class _DetailsBody extends StatelessWidget {
       children: [
         // The verdict comes first and largest. Poster and description are detail, and
         // detail belongs below it.
-        VerdictPanel(stats: displayStats, isLoading: isLoading),
+        VerdictPanel(stats: displayStats, myVote: details.myVote, isLoading: isLoading),
         const SizedBox(height: 32),
         Divider(color: theme.colorScheme.outline),
         const SizedBox(height: 24),

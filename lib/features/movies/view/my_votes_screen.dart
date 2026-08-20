@@ -12,6 +12,7 @@ import '../../../core/widgets/state_fade.dart';
 import '../data/movie_models.dart';
 import '../data/movie_repository.dart';
 import '../state/my_votes_controller.dart';
+import 'widgets/vote_answer_text.dart';
 
 class MyVotesScreen extends StatefulWidget {
   const MyVotesScreen({super.key, required this.repository});
@@ -104,13 +105,6 @@ class _MyVoteRow extends StatelessWidget {
     final l10n = context.l10n;
     final vote = entry.vote;
 
-    final answer = vote.hasScene ? l10n.myVotesSceneYes : l10n.myVotesSceneNo;
-    final worth = switch (vote.worthIt) {
-      true => l10n.myVotesWorthYes,
-      false => l10n.myVotesWorthNo,
-      null => null,
-    };
-
     return SizedBox(
       height: height,
       child: InkWell(
@@ -137,7 +131,7 @@ class _MyVoteRow extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      worth == null ? answer : '$answer · $worth',
+                      describeOwnVote(l10n, vote),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),
