@@ -54,8 +54,7 @@ class Attestation {
 /// Everything this class returns is untrusted by design. It exists so the server has
 /// something to verify, not so the client can decide anything.
 class AttestationService {
-  AttestationService({MethodChannel? channel})
-    : _channel = channel ?? integrityChannel;
+  AttestationService({MethodChannel? channel}) : _channel = channel ?? integrityChannel;
 
   final MethodChannel _channel;
 

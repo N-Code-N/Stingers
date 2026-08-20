@@ -181,11 +181,7 @@ class _DetailsBody extends StatelessWidget {
         const SizedBox(height: 32),
         Divider(color: theme.colorScheme.outline),
         const SizedBox(height: 24),
-        VotePanel(
-          vote: details.myVote,
-          onHasScene: onHasScene,
-          onWorthIt: onWorthIt,
-        ),
+        VotePanel(vote: details.myVote, onHasScene: onHasScene, onWorthIt: onWorthIt),
         const SizedBox(height: 32),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,

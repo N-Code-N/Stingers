@@ -179,9 +179,7 @@ void main() {
   ) async {
     const overview = 'A desert empire finds its destiny.';
     Size revealed() => tester.getSize(
-      find
-          .ancestor(of: find.text(overview), matching: find.byType(SizeTransition))
-          .first,
+      find.ancestor(of: find.text(overview), matching: find.byType(SizeTransition)).first,
     );
 
     await pump(tester);
