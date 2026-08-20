@@ -157,9 +157,11 @@ class _SearchResults extends StatelessWidget {
     // Snapshotted, not read live. `StateFade` keeps the outgoing list mounted while it
     // fades out, and that list is still scrollable and still rebuilding its items — off
     // a `controller.results` that the next query has already emptied.
-    final results = controller.results
-        .where((item) => item.movie.matchesSearch(controller.query))
-        .toList();
+    //
+    // Shown exactly as the server ranked them. A client-side substring filter over the
+    // title used to sit here and silently dropped correct answers — TMDb matches
+    // "avengers endgame" to "Avengers: Endgame", which does not contain the query.
+    final results = controller.results;
     return ListView.builder(
       key: const ValueKey('content'),
       controller: scrollController,

@@ -38,15 +38,10 @@ class Movie {
 
   int? get releaseYear => releaseDate?.year;
 
-  /// Returns whether the main title appears to be non-English (contains Cyrillic or other non-ASCII).
+  /// Whether the localised title is in Cyrillic, which is the only non-Latin script the
+  /// app ships an interface for and therefore the only case where showing the original
+  /// title alongside it tells the reader something.
   bool get isTitleNonEnglish => title.contains(RegExp(r'[а-яёА-ЯЁ]'));
-
-  /// Matches against localized title, English title, and original title for search.
-  bool matchesSearch(String query) {
-    final normalized = query.trim().toLowerCase();
-    return title.toLowerCase().contains(normalized) ||
-        originalTitle.toLowerCase().contains(normalized);
-  }
 
   /// TMDb sends `""` for a film with no announced date. It is a calendar day, not an
   /// instant, so it is deliberately not converted to local time — doing so would move

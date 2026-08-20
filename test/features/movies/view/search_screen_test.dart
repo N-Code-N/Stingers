@@ -89,4 +89,20 @@ void main() {
     );
     expect(find.text('Try again'), findsNothing);
   });
+
+  testWidgets('keeps a result whose title the server matched but the query does not '
+      'literally contain', (tester) async {
+    await pump(tester);
+
+    // TMDb answers this query with exactly this film. The punctuation in the title means
+    // the query is not a substring of it.
+    await submit(tester, 'avengers endgame');
+    repository.search.add([
+      MovieWithStats(movie: fakeMovie(1, 'Avengers: Endgame'), stats: fakeStats()),
+    ]);
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.text('Avengers: Endgame'), findsOneWidget);
+  });
 }
