@@ -21,13 +21,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get commonRetry => 'Повторить';
 
   @override
-  String get commonCancel => 'Отмена';
-
-  @override
   String get commonClose => 'Закрыть';
-
-  @override
-  String get commonSkip => 'Пропустить';
 
   @override
   String get errorGeneric => 'Что-то пошло не так.';
@@ -120,19 +114,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get detailsWorthNoAction => 'Не стоило';
 
   @override
-  String get detailsYourVote => 'Ваш голос';
-
-  @override
-  String get detailsChangeVote => 'Изменить';
-
-  @override
   String get detailsVoteQueued => 'Сохранено. Отправим, когда появится сеть.';
 
   @override
   String get detailsOverview => 'О фильме';
-
-  @override
-  String get detailsNoOverview => 'Описания нет.';
 
   @override
   String get searchHint => 'Название фильма';
@@ -183,9 +168,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get settingsLanguage => 'Язык';
-
-  @override
-  String get settingsLanguageHint => 'Интерфейс и описания фильмов.';
 
   @override
   String get settingsLanguageSystem => 'Язык системы';

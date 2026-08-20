@@ -12,10 +12,7 @@ import '../theme/app_theme.dart';
 /// The durations are short on purpose. This app is used one-handed, in the dark, for two
 /// seconds at a time; an animation long enough to be admired is an animation in the way.
 abstract final class AppMotion {
-  /// Press feedback and other responses that must feel instantaneous.
-  static const Duration short = Duration(milliseconds: 140);
-
-  /// The default: tab switches, state cross-fades, revealing a follow-up question.
+  /// The default: state cross-fades, revealing a follow-up question, a badge changing.
   static const Duration medium = Duration(milliseconds: 240);
 
   /// Reserved for something that changes meaning — a verdict appearing or flipping.

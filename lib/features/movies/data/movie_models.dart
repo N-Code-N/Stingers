@@ -237,19 +237,6 @@ class MyVote {
   /// True while the vote is still only local. It will be flushed on the next successful
   /// request; re-sending is safe because the server upserts on (film, device).
   final bool pendingSync;
-
-  MyVote copyWith({
-    bool? hasScene,
-    bool? worthIt,
-    bool clearWorthIt = false,
-    bool? pendingSync,
-  }) => MyVote(
-    tmdbId: tmdbId,
-    hasScene: hasScene ?? this.hasScene,
-    worthIt: clearWorthIt ? null : (worthIt ?? this.worthIt),
-    updatedAt: updatedAt,
-    pendingSync: pendingSync ?? this.pendingSync,
-  );
 }
 
 /// One row of the "my votes" screen: the vote, plus enough of the film to render it.

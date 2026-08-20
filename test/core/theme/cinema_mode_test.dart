@@ -34,7 +34,7 @@ void main() {
     final mode = build();
 
     expect(mode.enabled, isFalse);
-    expect(mode.palette, AppPalette.dark);
+    expect(mode.theme.scaffoldBackgroundColor, AppPalette.dark.background);
     expect(dimmer.calls, isEmpty);
 
     mode.dispose();
@@ -46,7 +46,6 @@ void main() {
     await mode.setEnabled(true);
 
     expect(mode.enabled, isTrue);
-    expect(mode.palette, AppPalette.cinema);
     expect(mode.theme.scaffoldBackgroundColor, const Color(0xFF000000));
     expect(persisted, [true]);
     expect(dimmer.calls, ['dim(${CinemaMode.dimLevel})']);
@@ -134,11 +133,12 @@ void main() {
   });
 
   test('forces reduced motion in cinema mode', () async {
+    // Asserted through the theme because that is the only way a widget can read it.
     final mode = build();
-    expect(mode.reduceMotion, isFalse);
+    expect(mode.theme.extension<CinemaExtras>()!.reduceMotion, isFalse);
 
     await mode.setEnabled(true);
-    expect(mode.reduceMotion, isTrue);
+    expect(mode.theme.extension<CinemaExtras>()!.reduceMotion, isTrue);
 
     mode.dispose();
   });

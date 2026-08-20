@@ -24,7 +24,6 @@ class AnonSession extends ChangeNotifier {
   late final StreamSubscription<AuthState> _subscription;
 
   String? get accessToken => _auth.currentSession?.accessToken;
-  String? get userId => _auth.currentUser?.id;
   bool get hasSession => _auth.currentSession != null;
 
   /// Signs in anonymously unless a session was restored from storage. Safe to call more

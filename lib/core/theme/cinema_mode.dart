@@ -63,12 +63,10 @@ class CinemaMode extends ChangeNotifier with WidgetsBindingObserver {
   bool _enabled;
   bool get enabled => _enabled;
 
-  AppPalette get palette => _enabled ? AppPalette.cinema : AppPalette.dark;
+  /// The whole of what this mode exposes: the palette and the reduce-motion flag reach
+  /// widgets through the theme and its `CinemaExtras` extension, never off this object,
+  /// so nothing has to reach for the toggle to find out how to paint itself.
   ThemeData get theme => _enabled ? AppTheme.cinema() : AppTheme.dark();
-
-  /// Cinema mode forces cross-fades over slides and springs, on top of whatever the OS
-  /// reduce-motion setting says. Movement is light moving across the screen.
-  bool get reduceMotion => _enabled;
 
   Future<void> setEnabled(bool value) async {
     if (_enabled == value) return;

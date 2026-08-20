@@ -7,9 +7,7 @@
   "navMyVotes": "My votes",
 
   "commonRetry": "Try again",
-  "commonCancel": "Cancel",
   "commonClose": "Close",
-  "commonSkip": "Skip",
 
   "errorGeneric": "Something went wrong.",
   "errorOffline": "No connection.",
@@ -60,11 +58,8 @@
   "detailsWorthQuestion": "Was it worth waiting for?",
   "detailsWorthYesAction": "Worth it",
   "detailsWorthNoAction": "Not worth it",
-  "detailsYourVote": "Your vote",
-  "detailsChangeVote": "Change",
   "detailsVoteQueued": "Saved. It will be sent when you are back online.",
   "detailsOverview": "About the film",
-  "detailsNoOverview": "No description available.",
 
   "searchHint": "Film title",
   "searchPrompt": "Find a film to check or to vote on.",
@@ -88,7 +83,6 @@
   "settingsCinemaMode": "Cinema mode",
   "settingsCinemaModeHint": "True black and a dimmed screen, for a dark auditorium.",
   "settingsLanguage": "Language",
-  "settingsLanguageHint": "Interface and film descriptions.",
   "settingsLanguageSystem": "System language",
   "settingsLanguageEnglish": "English",
   "settingsLanguageRussian": "Русский",

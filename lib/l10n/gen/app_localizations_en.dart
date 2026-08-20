@@ -21,13 +21,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonRetry => 'Try again';
 
   @override
-  String get commonCancel => 'Cancel';
-
-  @override
   String get commonClose => 'Close';
-
-  @override
-  String get commonSkip => 'Skip';
 
   @override
   String get errorGeneric => 'Something went wrong.';
@@ -121,19 +115,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get detailsWorthNoAction => 'Not worth it';
 
   @override
-  String get detailsYourVote => 'Your vote';
-
-  @override
-  String get detailsChangeVote => 'Change';
-
-  @override
   String get detailsVoteQueued => 'Saved. It will be sent when you are back online.';
 
   @override
   String get detailsOverview => 'About the film';
-
-  @override
-  String get detailsNoOverview => 'No description available.';
 
   @override
   String get searchHint => 'Film title';
@@ -184,9 +169,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsLanguage => 'Language';
-
-  @override
-  String get settingsLanguageHint => 'Interface and film descriptions.';
 
   @override
   String get settingsLanguageSystem => 'System language';

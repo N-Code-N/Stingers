@@ -119,23 +119,11 @@ abstract class AppLocalizations {
   /// **'Try again'**
   String get commonRetry;
 
-  /// No description provided for @commonCancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get commonCancel;
-
   /// No description provided for @commonClose.
   ///
   /// In en, this message translates to:
   /// **'Close'**
   String get commonClose;
-
-  /// No description provided for @commonSkip.
-  ///
-  /// In en, this message translates to:
-  /// **'Skip'**
-  String get commonSkip;
 
   /// No description provided for @errorGeneric.
   ///
@@ -299,18 +287,6 @@ abstract class AppLocalizations {
   /// **'Not worth it'**
   String get detailsWorthNoAction;
 
-  /// No description provided for @detailsYourVote.
-  ///
-  /// In en, this message translates to:
-  /// **'Your vote'**
-  String get detailsYourVote;
-
-  /// No description provided for @detailsChangeVote.
-  ///
-  /// In en, this message translates to:
-  /// **'Change'**
-  String get detailsChangeVote;
-
   /// No description provided for @detailsVoteQueued.
   ///
   /// In en, this message translates to:
@@ -322,12 +298,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'About the film'**
   String get detailsOverview;
-
-  /// No description provided for @detailsNoOverview.
-  ///
-  /// In en, this message translates to:
-  /// **'No description available.'**
-  String get detailsNoOverview;
 
   /// No description provided for @searchHint.
   ///
@@ -418,12 +388,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language'**
   String get settingsLanguage;
-
-  /// No description provided for @settingsLanguageHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Interface and film descriptions.'**
-  String get settingsLanguageHint;
 
   /// No description provided for @settingsLanguageSystem.
   ///

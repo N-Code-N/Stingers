@@ -7,9 +7,7 @@
   "navMyVotes": "Мои голоса",
 
   "commonRetry": "Повторить",
-  "commonCancel": "Отмена",
   "commonClose": "Закрыть",
-  "commonSkip": "Пропустить",
 
   "errorGeneric": "Что-то пошло не так.",
   "errorOffline": "Нет соединения.",
@@ -60,11 +58,8 @@
   "detailsWorthQuestion": "Её стоило дождаться?",
   "detailsWorthYesAction": "Стоило",
   "detailsWorthNoAction": "Не стоило",
-  "detailsYourVote": "Ваш голос",
-  "detailsChangeVote": "Изменить",
   "detailsVoteQueued": "Сохранено. Отправим, когда появится сеть.",
   "detailsOverview": "О фильме",
-  "detailsNoOverview": "Описания нет.",
 
   "searchHint": "Название фильма",
   "searchPrompt": "Найдите фильм, чтобы проверить или проголосовать.",
@@ -88,7 +83,6 @@
   "settingsCinemaMode": "Кинорежим",
   "settingsCinemaModeHint": "Чёрный фон и приглушённый экран — для тёмного зала.",
   "settingsLanguage": "Язык",
-  "settingsLanguageHint": "Интерфейс и описания фильмов.",
   "settingsLanguageSystem": "Язык системы",
   "settingsLanguageEnglish": "English",
   "settingsLanguageRussian": "Русский",
