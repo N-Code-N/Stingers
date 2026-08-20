@@ -83,6 +83,13 @@ class ApiMovieRepository implements MovieRepository {
   /// *local* write is deliberately not in this queue: see [castVote].
   Future<void> _delivery = Future<void>.value();
 
+  /// The sequence number of the newest local vote write per film, and a counter to mint
+  /// them from. A delivery may only touch the row it wrote: because the local write is
+  /// not serialised, a second tap can replace the row while the first tap is still on
+  /// its way to the server, and the first must not then undo it.
+  final Map<int, int> _latestVote = {};
+  int _voteSeq = 0;
+
   // --- feed ----------------------------------------------------------------
 
   @override
@@ -220,6 +227,9 @@ class ApiMovieRepository implements MovieRepository {
       ),
     }, at);
 
+    final seq = ++_voteSeq;
+    _latestVote[tmdbId] = seq;
+
     final delivery = _delivery.then(
       (_) => _deliver(
         tmdbId: tmdbId,
@@ -228,6 +238,7 @@ class ApiMovieRepository implements MovieRepository {
         previous: previous,
         previousStats: previousStats,
         at: at,
+        seq: seq,
       ),
     );
     // Two futures on purpose: the caller gets the one that reports the failure, and the
@@ -244,24 +255,34 @@ class ApiMovieRepository implements MovieRepository {
     required MyVote? previous,
     required SceneStats previousStats,
     required DateTime at,
+    required int seq,
   }) async {
     try {
       final stats = await _sendVote(tmdbId: tmdbId, hasScene: hasScene, worthIt: worthIt);
-      await _local.markSynced(tmdbId);
+      // Only the newest write may clear the pending flag. Marking a *later* tap's row as
+      // synced on this one's behalf would drop it from the queue before it was ever sent.
+      if (_isLatest(tmdbId, seq)) await _local.markSynced(tmdbId);
       await _local.saveStats({tmdbId: stats}, _now());
       return VoteOutcome.sent;
     } on NetworkException {
       return VoteOutcome.queued;
     } on ApiException {
-      if (previous == null) {
-        await _local.deleteVote(tmdbId);
-      } else {
-        await _local.saveVote(previous);
+      // Same rule on the way back: a later tap has already replaced the row with an
+      // answer the user gave after this one, and undoing it would throw that answer away
+      // while the server keeps it.
+      if (_isLatest(tmdbId, seq)) {
+        if (previous == null) {
+          await _local.deleteVote(tmdbId);
+        } else {
+          await _local.saveVote(previous);
+        }
+        await _local.saveStats({tmdbId: previousStats}, at);
       }
-      await _local.saveStats({tmdbId: previousStats}, at);
       rethrow;
     }
   }
+
+  bool _isLatest(int tmdbId, int seq) => _latestVote[tmdbId] == seq;
 
   /// Sends whatever is queued. Safe to call at any time and as often as you like: a vote
   /// is upserted on (film, device) server-side, so a duplicate send is a no-op.

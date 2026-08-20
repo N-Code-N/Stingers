@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stingers/core/db/app_database.dart';
@@ -64,6 +66,10 @@ class FakeSceneVoteService implements SceneVoteService {
   final List<int> submitted = [];
   final List<String> noncesUsed = [];
 
+  /// Runs before the submit is recorded, so a test can hold one delivery open or decide
+  /// per call whether the server accepts it.
+  Future<void> Function()? beforeSubmit;
+
   @override
   Future<String> requestChallenge({
     required int tmdbId,
@@ -99,6 +105,7 @@ class FakeSceneVoteService implements SceneVoteService {
     required String? attestationToken,
     required String? attestationVerdict,
   }) async {
+    if (beforeSubmit != null) await beforeSubmit!();
     submitted.add(tmdbId);
     noncesUsed.add(nonce);
     if (submitFailure != null) throw submitFailure!;
@@ -383,6 +390,39 @@ void main() {
 
       expect(outcome, VoteOutcome.queued);
       expect(votes.submitted, isEmpty);
+    });
+
+    test('a refused vote does not erase the answer given after it', () async {
+      tmdb.movies = {7: movie(7)};
+      await repository.refreshMovie(7);
+
+      final gate = Completer<void>();
+      votes.beforeSubmit = () async {
+        // The first tap is refused; the second is accepted.
+        votes.submitFailure = votes.submitted.isEmpty
+            ? const VoteRejectedException('slow down')
+            : null;
+        await gate.future;
+      };
+
+      // "Yes, there was", then "worth it" — two taps a moment apart, which is the normal
+      // way to use the screen. The second lands while the first is still in flight.
+      final first = repository.castVote(tmdbId: 7, hasScene: true, worthIt: null);
+      final second = repository.castVote(tmdbId: 7, hasScene: true, worthIt: true);
+      await pumpEventQueue();
+      expect((await local.readVote(7))!.worthIt, isTrue, reason: 'both taps written');
+
+      gate.complete();
+      await expectLater(first, throwsA(isA<VoteRejectedException>()));
+      await second;
+
+      // Rolling the first tap back must not take the second one with it: the server
+      // accepted it, so the screen has to keep showing it.
+      final vote = await local.readVote(7);
+      expect(vote, isNotNull);
+      expect(vote!.hasScene, isTrue);
+      expect(vote.worthIt, isTrue);
+      expect(vote.pendingSync, isFalse);
     });
 
     test('a no-scene vote cannot carry a worth-it answer', () async {
