@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
+import 'integrity_channel.dart';
+
 /// What the platform concluded about this device and build.
 ///
 /// The names match the server's `devices.attest_verdict` values, but the client's copy
@@ -53,7 +55,7 @@ class Attestation {
 /// something to verify, not so the client can decide anything.
 class AttestationService {
   AttestationService({MethodChannel? channel})
-    : _channel = channel ?? const MethodChannel('stingers/integrity');
+    : _channel = channel ?? integrityChannel;
 
   final MethodChannel _channel;
 

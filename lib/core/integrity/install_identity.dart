@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import '../db/app_database.dart';
+import 'integrity_channel.dart';
 
 /// Who the *device* is — which, for counting votes, matters more than who the user is.
 ///
@@ -23,7 +24,7 @@ import '../db/app_database.dart';
 class InstallIdentity {
   InstallIdentity({required AppDatabase db, MethodChannel? channel})
     : _db = db,
-      _channel = channel ?? const MethodChannel('stingers/integrity');
+      _channel = channel ?? integrityChannel;
 
   final AppDatabase _db;
   final MethodChannel _channel;
