@@ -14,6 +14,8 @@ String describeError(AppLocalizations l10n, Object error) => switch (error) {
   NotFoundException() => l10n.errorNotFound,
   VoteRejectedException() => l10n.errorVoteRejected,
   UpstreamUnavailableException() => l10n.errorUpstream,
-  InvalidRequestException() || UnknownApiException() => l10n.errorGeneric,
+  // `InvalidRequestException` and `UnknownApiException` land here too, and should: a
+  // client-side bug and a discriminator this build has never heard of are both things
+  // the user can do nothing about, so they read the same generic line.
   _ => l10n.errorGeneric,
 };

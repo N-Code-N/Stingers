@@ -68,9 +68,9 @@ class MovieDetailsController extends ChangeNotifier {
     _notify();
     try {
       await _repository.refreshMovie(tmdbId, force: force);
-    } on NetworkException catch (e) {
-      if (_details == null) _error = e;
-    } on ApiException catch (e) {
+    } on AppException catch (e) {
+      // Only fatal with nothing cached. Otherwise the stream is already showing the
+      // film and a failed refresh is not worth a screen.
       if (_details == null) _error = e;
     } finally {
       _suppressIncomingDetails = false;
@@ -110,11 +110,11 @@ class MovieDetailsController extends ChangeNotifier {
       // is not cancelled just because the user backed out of the details page.
       if (_disposed) return;
       if (outcome == VoteOutcome.queued) _showQueued();
-    } on NetworkException catch (e) {
-      if (!_disposed) _showError(e);
-    } on ApiException catch (e) {
-      // The repository has already restored the previous vote and aggregate; the stream
-      // has repainted. All that is left is telling the user it did not land.
+    } on AppException catch (e) {
+      // On a rejection the repository has already restored the previous vote and
+      // aggregate and the stream has repainted; all that is left is telling the user it
+      // did not land. A transport failure normally comes back as `queued` instead, so
+      // reaching here with one means the vote was not even written.
       if (!_disposed) _showError(e);
     } on Object catch (e, stack) {
       // Anything unexpected is reported rather than thrown at a tap handler nobody

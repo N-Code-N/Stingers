@@ -74,9 +74,7 @@ class NowPlayingController extends ChangeNotifier {
     try {
       _hasMore = await _repository.refreshFeed(page: page, force: force);
       _isStale = false;
-    } on NetworkException catch (e) {
-      _failed(e);
-    } on ApiException catch (e) {
+    } on AppException catch (e) {
       _failed(e);
     } finally {
       _isLoading = false;

@@ -78,9 +78,7 @@ class MovieSearchController extends ChangeNotifier {
 
     try {
       await _repository.refreshSearch(trimmed, force: force);
-    } on NetworkException catch (e) {
-      if (!_disposed) _failed(trimmed, e);
-    } on ApiException catch (e) {
+    } on AppException catch (e) {
       if (!_disposed) _failed(trimmed, e);
     } finally {
       if (!_disposed) {
