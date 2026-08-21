@@ -123,4 +123,5 @@ class AppDatabase extends _$AppDatabase {
 abstract final class SettingKeys {
   static const String cinemaMode = 'cinema_mode';
   static const String installId = 'install_id';
+  static const String languageOverride = 'language_override';
 }

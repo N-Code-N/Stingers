@@ -2,15 +2,28 @@ import 'dart:ui' show PlatformDispatcher;
 
 import 'package:flutter/widgets.dart';
 
+Future<void> _noopPersist(Locale? _) async {}
+
 /// The single source of truth for "what language is this session in".
 ///
 /// It drives `MaterialApp.locale` and the outgoing `Accept-Language` header *and* the
 /// `language` parameter sent to TMDb, so changing the language switches the interface
 /// and the film descriptions together, with no restart.
+///
+/// The choice outlives the session: [initialOverride] is what a previous run persisted,
+/// read by the composition root before this is constructed, and [setLocale] hands
+/// [persist] whatever should be read back next time. Screens that only care about the
+/// in-memory value — most of the test suite — can ignore both parameters entirely.
 class AppLocaleController extends ChangeNotifier {
-  AppLocaleController({Locale? initialOverride}) : _override = initialOverride;
+  AppLocaleController({
+    Locale? initialOverride,
+    Future<void> Function(Locale? locale) persist = _noopPersist,
+  }) : _override = initialOverride,
+       _persist = persist;
 
   static const List<Locale> supported = [Locale('en'), Locale('ru')];
+
+  final Future<void> Function(Locale? locale) _persist;
 
   Locale? _override;
   int _generation = 0;
@@ -22,11 +35,12 @@ class AppLocaleController extends ChangeNotifier {
   /// without relying on a route being currently mounted.
   int get generation => _generation;
 
-  void setLocale(Locale? value) {
+  Future<void> setLocale(Locale? value) async {
     if (_override == value) return;
     _override = value;
     _generation++;
     notifyListeners();
+    await _persist(value);
   }
 
   /// The language actually in effect, already narrowed to what the app ships.

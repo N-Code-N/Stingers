@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:http/http.dart' as http;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -53,7 +54,15 @@ class AppDependencies {
     http.Client? httpClient,
   }) async {
     final client = httpClient ?? http.Client();
-    final locale = AppLocaleController();
+
+    final storedLanguage = await database.readSetting(SettingKeys.languageOverride);
+    final locale = AppLocaleController(
+      initialOverride: storedLanguage == null || storedLanguage.isEmpty
+          ? null
+          : Locale(storedLanguage),
+      persist: (value) =>
+          database.writeSetting(SettingKeys.languageOverride, value?.languageCode ?? ''),
+    );
     final session = AnonSession(auth: supabase.auth);
 
     final apiClient = ApiClient(
