@@ -15,8 +15,14 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      # Pinned, not `channel: stable`: an unpinned channel drifts to whatever release is
+      # current on the day CI runs, which re-resolves transitive package versions in
+      # pubspec.lock for reasons that have nothing to do with this repo's own code —
+      # and the up-to-date check below can't tell that apart from a real stale-codegen
+      # diff. Bump this deliberately, together with pubspec.lock, when upgrading Flutter.
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: 3.41.6
           channel: stable
           cache: true
 
@@ -67,6 +73,7 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: 3.41.6
           channel: stable
           cache: true
 
