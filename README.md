@@ -7,7 +7,7 @@ The app answers in two lines and says how sure it is:
 
 ```
 There is a scene after the credits
-86% of 14 votes
+86% of voters agree
 
 Worth waiting for
 64% of those who saw it
@@ -23,11 +23,11 @@ iOS · Android · macOS · Windows · Linux · Web
 
 | List | Movie with stinger | Movie without stinger |
 |---|---|---|
-| <img src="docs/screenshots/list.png" width="240" alt="Feed" /> | <img src="docs/screenshots/movie1.png" width="240" alt="Movie details" /> | <img src="docs/screenshots/movie2.png" width="240" alt="Movie detail with verdict" /> |
+| <img src="docs/screenshots/list.png" width="240" alt="Feed" /> | <img src="docs/screenshots/movie1.png" width="240" alt="Movie with a scene after the credits" /> | <img src="docs/screenshots/movie2.png" width="240" alt="Movie with no scene after the credits" /> |
 
 | Search | Settings | Settings with cinema mode on |
 |---|---|---|
-| <img src="docs/screenshots/search.png" width="240" alt="Search and settings" /> | <img src="docs/screenshots/settings1.png" width="240" alt="Settings" /> | <img src="docs/screenshots/settings2.png" width="240" alt="Settings with cinema mode on" /> |
+| <img src="docs/screenshots/search.png" width="240" alt="Search" /> | <img src="docs/screenshots/settings1.png" width="240" alt="Settings" /> | <img src="docs/screenshots/settings2.png" width="240" alt="Settings with cinema mode on" /> |
 
 ---
 
@@ -95,10 +95,10 @@ lib/
   core/       config · db (Drift) · di · errors · integrity · l10n · motion
               network · router · session · theme · widgets
   features/
-    movies/   data/   models · three services · repository
+    movies/   data/   models · three services · repository · vote delivery queue
               state/  four controllers, one per screen
               view/   feed, details, search, my votes + shared widgets
-    settings/ cinema mode, "my votes" entry, TMDb attribution
+    settings/ cinema mode, language, "my votes" entry, TMDb attribution
 supabase/
   migrations/ schema, the trust-weighted stats view, RLS, the vote-path functions
   functions/  tmdb (read proxy) · vote (the only write path)
@@ -135,27 +135,34 @@ changing your mind about an answer you already gave keeps the original weight ra
 than being re-judged, which also closes the obvious game of re-voting until the number
 comes out favourable.
 
-**Two Postgres functions instead of ten round trips.** Casting a vote touches a rate
-limit, a nonce, a film lookup, a weight, and three tables — that used to be one PostgREST
-call per step. `vote_prepare` gathers everything the decision needs in one read;
-`vote_finalize` spends the nonce and writes the vote, the audit row and the device's
-standing in a single transaction. The two-step split exists for one reason: whether to
-spend the nonce depends on a rate-limit decision made with `vote_prepare`'s numbers, and
-a nonce guarding a request that gets rejected must not be burned. The old shape had a
-real gap here — a crash between "nonce consumed" and "vote stored" lost the vote and
-burned the nonce with nothing to show for it; one transaction closes that. An amendment
-(the device already has a vote on this film) is logged separately from a new vote in the
-audit trail, so changing your mind a few times does not eat the same hourly quota meant
-to catch a device voting on many different films fast.
+**Three Postgres functions instead of ten round trips.** Casting a vote touches a rate
+limit, a nonce, a film lookup, a weight, and three tables — that used to be one
+PostgREST call per step. `vote_issue_challenge` mints the nonce; `vote_prepare` gathers
+everything the decision needs in one read; `vote_finalize` spends the nonce and writes
+the vote, the audit row and the device's standing in a single transaction. The
+prepare/finalize split exists for one reason: whether to spend the nonce depends on a
+rate-limit decision made with `vote_prepare`'s numbers, and a nonce guarding a request
+that gets rejected must not be burned. The old shape had a real gap here — a crash
+between "nonce consumed" and "vote stored" lost the vote and burned the nonce with
+nothing to show for it; one transaction closes that. An amendment (the device already
+has a vote on this film) is logged separately from a new vote in the audit trail, so
+changing your mind a few times does not eat the same hourly quota meant to catch a
+device voting on many different films fast.
 
 **Layered resistance to vote-stuffing.** The client is treated as a hostile environment
 throughout — it holds a public key, its strings are readable, and its traffic is
 interceptable, so nothing it reports about itself is believed. Layers, from cheap to
-expensive: no write path on the client · CAPTCHA and rate limits on anonymous sign-in ·
-single-use nonces bound to (device, film, 5 min) · device attestation verified in the
-function (seam in place; enabling it needs store credentials) · identity that survives a
-reinstall, Keychain on iOS and `ANDROID_ID` on Android · trust weighting · an audit trail
-of every attempt.
+expensive: no write path on the client · per-device and per-IP rate limits inside the
+vote path · single-use nonces bound to (device, film, 5 min) · device attestation verified
+in the function (seam in place; enabling it needs store credentials) · identity that
+survives a reinstall, Keychain on iOS and `ANDROID_ID` on Android · trust weighting · an
+audit trail of every attempt.
+
+Sign-up friction is deliberately not on that list. `votes` is keyed on `(film, device)`
+and the device id arrives in the request body, so a million accounts behind one device
+still cast one vote and an attacker never needs a second account at all. A CAPTCHA on
+anonymous sign-in would defend the auth table and the invoice while leaving the dataset
+exactly as exposed.
 
 **A theme with a test that enforces it.** `app_theme_test.dart` walks every
 `ColorScheme` role and fails on anything blue-dominant, on pure white, on a component
@@ -297,7 +304,8 @@ GET  /functions/v1/tmdb/search/movie?query=dune&page=1&language=ru-RU
 POST /functions/v1/vote/challenge   { tmdb_id, install_id, platform }
                                  -> { nonce, expires_at }
 POST /functions/v1/vote            { tmdb_id, install_id, platform, has_scene,
-                                     worth_it, nonce, attestation_token }
+                                     worth_it, nonce, attestation_token,
+                                     attestation_verdict }
                                  -> { tmdb_id, raw_votes, total_weight,
                                       scene_weight, worth_weight, worth_total }
 ```
@@ -333,12 +341,16 @@ dart format --set-exit-if-changed .
 flutter test
 ```
 
-All three gate "done" locally, and [CI](.github/workflows/ci.yml) runs exactly the same
-three plus a regenerate-and-diff step for the Drift and l10n output. The backend has its
+All three gate "done" locally. [CI](.github/workflows/ci.yml) runs analyze and test the
+same way, and folds the format check into one regenerate-format-and-diff step, which
+also catches Drift or l10n output that was never regenerated. Formatting has to happen
+before that diff: drift_dev formats its own output at 80 columns and ignores the
+`page_width: 90` in `analysis_options.yaml` that `dart format` obeys, so comparing
+straight after codegen just diffs the two widths against each other. The backend has its
 own gate: `deno check`, `deno lint`, `deno fmt --check` and `deno test` inside
 `supabase/functions`, wired into the same CI run.
 
-200 Dart tests, 18 Deno tests. The ones worth reading first, because they encode
+214 Dart tests, 18 Deno tests. The ones worth reading first, because they encode
 decisions rather than behaviour:
 
 - `test/core/theme/app_theme_test.dart` — every `ColorScheme` role is warm, nothing is
@@ -376,6 +388,13 @@ decisions rather than behaviour:
   path, which goes through an Edge Function. Not a security gap — RLS already covers it —
   just a portability cost, paid to avoid an extra network hop and cold start for two
   read-only queries.
+- **The optimistic fold hard-codes the server's weight.** `SceneStats.assumedOwnWeight`
+  is `0.12` — the floor of what `trust.ts` gives a fresh device — so the percentage can
+  move on tap without asking the server what the vote is worth. It is deliberately the
+  floor and not the middle: the server can only correct upwards, and a client that
+  over-counts its own vote shows a verdict that then disappears on the next visit. The
+  copy has to be revisited by hand whenever the weighting formula changes; it holds
+  because the number is a floor, not because the two stay in sync.
 
 None of these are unknown unknowns. Each has a written trigger for when it stops being
 fine to leave alone.
@@ -400,5 +419,11 @@ The steps where apps like this usually come apart:
    with no restart.
 
 ---
+
+## Licence
+
+Source-available, not open source. Read it, quote it, run it locally — see
+[`LICENSE`](LICENSE). Publishing it to an app store, hosting it as a service, or
+redistributing the source needs written permission.
 
 This product uses the TMDB API but is not endorsed or certified by TMDB.

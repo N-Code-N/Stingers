@@ -1,0 +1,37 @@
+Copyright (c) 2026 <Andrei Shelest>. All rights reserved.
+
+This source code is published for reading — to be studied, quoted and discussed.
+It is not open source, and no open-source licence is granted.
+
+You may:
+
+  * read, clone and browse this repository;
+  * quote excerpts of the source with attribution, for review, commentary,
+    teaching or discussion;
+  * run the code locally, unmodified or modified, for evaluation and study.
+
+You may not, without prior written permission from the copyright holder:
+
+  * publish, distribute or sell this application, or any work derived from it,
+    on any app store or other distribution channel;
+  * host or operate it as a service available to third parties;
+  * redistribute the source, in whole or in substantial part, as your own work
+    or under another licence.
+
+No trademark rights are granted. "Stingers", the app's name, icon and visual
+identity are not covered by any permission above.
+
+Third-party material is not covered by this licence and carries its own terms:
+
+  * film metadata, posters and the screenshots in `docs/screenshots/` that
+    contain them come from TMDB and belong to their respective rights holders.
+    This product uses the TMDB API but is not endorsed or certified by TMDB;
+  * every package in `pubspec.yaml` and every dependency of the Edge Functions
+    remains under its own licence.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
