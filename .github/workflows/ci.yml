@@ -30,13 +30,21 @@ jobs:
 
       # Drift and gen-l10n output is committed. Regenerating and then checking the tree
       # is what catches a schema change that was never regenerated.
+      #
+      # `dart format` has to run BEFORE the diff, not as a separate gate after it.
+      # drift_dev formats its own output with a programmatic DartFormatter, which does
+      # not read `formatter.page_width` from analysis_options.yaml and so emits 80
+      # columns; `dart format .` does read it and emits 90. Diffing straight after
+      # codegen compares those two widths against each other and fails on every run,
+      # whether or not anything is genuinely stale. Formatting first also folds the old
+      # `--set-exit-if-changed` gate into this one check.
       - run: dart run build_runner build
       - run: flutter gen-l10n
-      - name: Generated code is up to date
+      - run: dart format .
+      - name: Generated code and formatting are up to date
         run: git diff --exit-code
 
       - run: flutter analyze
-      - run: dart format --set-exit-if-changed .
       - run: flutter test
 
   # The Edge Functions are the only place in the system where a control can exist at
