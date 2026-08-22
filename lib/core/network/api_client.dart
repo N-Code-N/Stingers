@@ -24,7 +24,7 @@ class ApiClient {
     required String anonKey,
     required AccessTokenProvider accessToken,
     required LanguageProvider language,
-    this.timeout = const Duration(seconds: 15),
+    this.timeout = const Duration(seconds: 7),
   }) : _http = httpClient,
        _baseUrl = baseUrl,
        _anonKey = anonKey,

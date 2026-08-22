@@ -56,7 +56,7 @@ class FakeTmdbService implements TmdbService {
 
 class FakeSceneVoteService implements SceneVoteService {
   @override
-  final Duration timeout = const Duration(seconds: 15);
+  final Duration timeout = const Duration(seconds: 7);
 
   Map<int, SceneStats> stats = {};
   List<MyVote> serverVotes = [];

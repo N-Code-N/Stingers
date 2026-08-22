@@ -16,7 +16,7 @@ import 'package:stingers/features/movies/data/tmdb_service.dart';
 /// screen sees *while* a vote is still in the air.
 class _SlowVotes implements SceneVoteService {
   @override
-  final Duration timeout = const Duration(seconds: 15);
+  final Duration timeout = const Duration(seconds: 7);
 
   final List<Completer<void>> gates = [];
   final List<bool> delivered = [];
