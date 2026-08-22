@@ -15,6 +15,9 @@ import 'package:stingers/features/movies/data/tmdb_service.dart';
 /// A vote service whose delivery can be held open, so a test can observe what the
 /// screen sees *while* a vote is still in the air.
 class _SlowVotes implements SceneVoteService {
+  @override
+  final Duration timeout = const Duration(seconds: 15);
+
   final List<Completer<void>> gates = [];
   final List<bool> delivered = [];
 

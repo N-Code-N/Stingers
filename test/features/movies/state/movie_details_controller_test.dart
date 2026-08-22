@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stingers/core/errors/app_exceptions.dart';
 import 'package:stingers/features/movies/data/movie_models.dart';
@@ -179,6 +181,80 @@ void main() {
     scoped.dispose();
 
     await expectLater(vote, completes);
+  });
+
+  test('a forced first load in airplane mode keeps the cached film on screen', () async {
+    // The screen's *first* load is forced: initState bumps the locale generation, so
+    // opening a film the feed already cached goes down this path, not the plain one
+    // covered above.
+    //
+    // This is the interleaving a real device produces. Drift answers from disk in a
+    // millisecond; a host lookup in airplane mode gives up a moment later. So the cached
+    // row is offered while the forced load has the screen blanked — and a drift stream
+    // never replays, while a failed refresh writes nothing that would make it emit
+    // again. That one offer is the only one there will be.
+    repository.onRefreshMovie = () => repository.movie.add(details());
+    repository.refreshMovieFailure = const NetworkException();
+
+    await controller.load(force: true);
+    await pumpEventQueue();
+
+    expect(controller.details, isNotNull, reason: 'the cached film is all we can show');
+    expect(controller.error, isNull, reason: 'a failed refresh is not worth a screen');
+    expect(controller.isLoading, isFalse);
+  });
+
+  test(
+    'a forced reload in airplane mode does not blank a film already on screen',
+    () async {
+      // Changing the language forces a reload of a film that is already rendered. Nothing
+      // is written when the refresh fails, so the database has no reason to emit the row
+      // a second time: whatever the blanking threw away is gone for good.
+      await controller.load();
+      repository.movie.add(details());
+      await pumpEventQueue();
+      expect(controller.details, isNotNull);
+
+      repository.refreshMovieFailure = const NetworkException();
+      await controller.load(force: true);
+      await pumpEventQueue();
+
+      expect(controller.details, isNotNull);
+      expect(controller.error, isNull);
+    },
+  );
+
+  test('a forced load that succeeds shows the row the refresh wrote', () async {
+    // Same window, other outcome: the refresh writes, and the write is what makes the
+    // database emit. If that emission lands before the forced load lets go, dropping it
+    // leaves the screen with nothing to draw and no error to explain it.
+    repository.onRefreshMovie = () => repository.movie.add(details());
+
+    await controller.load(force: true);
+    await pumpEventQueue();
+
+    expect(controller.details, isNotNull);
+    expect(controller.error, isNull);
+  });
+
+  test('a forced load whose refresh never answers still shows the cached film', () async {
+    // The film was opened online once, then airplane mode. The DNS answer is still
+    // cached, so the socket connect waits instead of being refused, and the Supabase
+    // read carries no timeout to cut it short — `refreshMovie` simply never comes back.
+    //
+    // Nothing may hold the cached row behind that. Reads come from the database; the
+    // network only ever refreshes what is already on screen.
+    final stuck = Completer<void>();
+    repository.refreshMovieGate = stuck.future;
+    repository.onRefreshMovie = () => repository.movie.add(details());
+
+    final pending = controller.load(force: true);
+    await pumpEventQueue();
+
+    expect(controller.details, isNotNull, reason: 'the film is already on disk');
+
+    stuck.complete();
+    await pending;
   });
 
   test('queues a second tap behind the first instead of dropping it', () async {

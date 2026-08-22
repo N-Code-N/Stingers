@@ -19,6 +19,16 @@ class FakeMovieRepository implements MovieRepository {
   Object? refreshSearchFailure;
   Object? refreshMyVotesFailure;
   Object? castVoteFailure;
+
+  /// Runs inside `refreshMovie`, before it fails. Lets a test pin the interleaving a
+  /// real device produces: the database answers from disk while the network request is
+  /// still on its way to failing.
+  void Function()? onRefreshMovie;
+
+  /// Holds `refreshMovie` open until it completes. A request that hangs rather than
+  /// fails is the airplane-mode case that matters: the DNS answer is still cached from
+  /// the online visit, so the socket connect waits instead of being refused.
+  Future<void>? refreshMovieGate;
   VoteOutcome castVoteOutcome = VoteOutcome.sent;
   bool feedHasMore = true;
 
@@ -53,6 +63,8 @@ class FakeMovieRepository implements MovieRepository {
   Future<void> refreshMovie(int tmdbId, {bool force = false}) async {
     refreshMovieCalls++;
     if (force) forcedRefreshMovieCalls++;
+    onRefreshMovie?.call();
+    if (refreshMovieGate != null) await refreshMovieGate;
     if (refreshMovieFailure != null) throw refreshMovieFailure!;
   }
 

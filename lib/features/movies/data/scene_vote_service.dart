@@ -15,12 +15,24 @@ import 'movie_models.dart';
 /// Function, because there is no INSERT policy on `votes` and there is not going to be
 /// one — see PROJECT_PLAN.md §6.
 class SceneVoteService {
-  SceneVoteService({required SupabaseClient supabase, required ApiClient api})
-    : _supabase = supabase,
-      _api = api;
+  SceneVoteService({
+    required SupabaseClient supabase,
+    required ApiClient api,
+    Duration? timeout,
+  }) : _supabase = supabase,
+       _api = api,
+       timeout = timeout ?? api.timeout;
 
   final SupabaseClient _supabase;
   final ApiClient _api;
+
+  /// Taken from the [ApiClient] this service is given, so the two transports cannot
+  /// drift apart. PostgREST goes out through the Supabase SDK rather than that client,
+  /// so it inherits nothing from it — and the SDK imposes no deadline of its own. Left
+  /// open, a read waits forever: in airplane mode after an online visit the DNS answer
+  /// is still cached, so the connect waits for a SYN-ACK that never comes instead of
+  /// being refused.
+  final Duration timeout;
 
   /// One request for a whole page of films. The feed asks for the 20 ids it is about to
   /// render, never one request per row.
@@ -108,7 +120,7 @@ class SceneVoteService {
     Future<List<Map<String, dynamic>>> Function() request,
   ) async {
     try {
-      return await request();
+      return await request().timeout(timeout);
     } on PostgrestException catch (e) {
       throw switch (e.code) {
         'PGRST301' || '401' || '403' => UnauthenticatedException(e.message),
