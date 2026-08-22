@@ -34,7 +34,10 @@ void main() {
   testWidgets('asks only the first question before anyone has answered', (tester) async {
     await pump(tester);
 
-    expect(find.text('Did this film have a scene after the credits?'), findsOneWidget);
+    expect(
+      find.text('Did this film have a scene during or after the credits?'),
+      findsOneWidget,
+    );
     expect(find.text('Was it worth waiting for?'), findsNothing);
   });
 

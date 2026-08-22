@@ -69,10 +69,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get badgeUnknown => 'Unknown';
 
   @override
-  String get detailsSceneYes => 'There is a scene after the credits';
+  String get detailsSceneYes => 'There is a scene';
 
   @override
-  String get detailsSceneNo => 'No scene after the credits';
+  String get detailsSceneNo => 'No scene';
 
   @override
   String get detailsSceneUnknown => 'Not enough votes yet';
@@ -97,7 +97,8 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get detailsVoteQuestion => 'Did this film have a scene after the credits?';
+  String get detailsVoteQuestion =>
+      'Did this film have a scene during or after the credits?';
 
   @override
   String get detailsVoteYes => 'Yes, there was';
@@ -140,7 +141,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get myVotesEmptyHint =>
-      'Open a film and say whether it has a scene after the credits.';
+      'Open a film and say whether it has a scene during or after the credits.';
 
   @override
   String get myVotesPending => 'Waiting to be sent';

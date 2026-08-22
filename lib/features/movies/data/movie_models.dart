@@ -220,8 +220,8 @@ class SceneStats {
   }
 }
 
-/// A film plus what is known about its post-credits scene. The join the whole app exists
-/// to perform — TMDb on one side, our own votes on the other.
+/// A film plus what is known about its scene during or after the credits. The join the
+/// whole app exists to perform — TMDb on one side, our own votes on the other.
 class MovieWithStats {
   const MovieWithStats({required this.movie, required this.stats});
 

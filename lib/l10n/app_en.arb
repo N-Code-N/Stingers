@@ -31,8 +31,8 @@
   "badgeNoScene": "No scene",
   "badgeUnknown": "Unknown",
 
-  "detailsSceneYes": "There is a scene after the credits",
-  "detailsSceneNo": "No scene after the credits",
+  "detailsSceneYes": "There is a scene",
+  "detailsSceneNo": "No scene",
   "detailsSceneUnknown": "Not enough votes yet",
   "detailsSceneUnknownHint": "Say one of the first — it takes one tap.",
   "detailsSceneConfidence": "{percent}% of voters agree",
@@ -52,7 +52,7 @@
     }
   },
 
-  "detailsVoteQuestion": "Did this film have a scene after the credits?",
+  "detailsVoteQuestion": "Did this film have a scene during or after the credits?",
   "detailsVoteYes": "Yes, there was",
   "detailsVoteNo": "No, there wasn't",
   "detailsWorthQuestion": "Was it worth waiting for?",
@@ -72,7 +72,7 @@
   "searchEmptyOffline": "Only films you have already searched for are available offline.",
 
   "myVotesEmpty": "You have not voted yet.",
-  "myVotesEmptyHint": "Open a film and say whether it has a scene after the credits.",
+  "myVotesEmptyHint": "Open a film and say whether it has a scene during or after the credits.",
   "myVotesPending": "Waiting to be sent",
   "voteAnswerSceneYes": "You said: there is a scene",
   "voteAnswerSceneNo": "You said: no scene",

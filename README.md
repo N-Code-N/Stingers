@@ -1,12 +1,12 @@
 # Stingers
 
-**Does this film have a scene after the credits, and is it worth waiting for?**
+**Does this film have a scene during or after the credits, and is it worth waiting for?**
 
-You are sitting in the dark on the final credits and have to decide whether to stand up.
+The credits start rolling and you have to decide whether to stay in your seat.
 The app answers in two lines and says how sure it is:
 
 ```
-There is a scene after the credits
+There is a scene
 86% of voters agree
 
 Worth waiting for
@@ -23,7 +23,7 @@ iOS · Android · macOS · Windows · Linux · Web
 
 | List | Movie with stinger | Movie without stinger |
 |---|---|---|
-| <img src="docs/screenshots/list.png" width="240" alt="Feed" /> | <img src="docs/screenshots/movie1.png" width="240" alt="Movie with a scene after the credits" /> | <img src="docs/screenshots/movie2.png" width="240" alt="Movie with no scene after the credits" /> |
+| <img src="docs/screenshots/list.png" width="240" alt="Feed" /> | <img src="docs/screenshots/movie1.png" width="240" alt="Movie with a scene during or after the credits" /> | <img src="docs/screenshots/movie2.png" width="240" alt="Movie with no scene during or after the credits" /> |
 
 | Search | Settings | Settings with cinema mode on |
 |---|---|---|

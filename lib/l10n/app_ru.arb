@@ -31,8 +31,8 @@
   "badgeNoScene": "Нет сцены",
   "badgeUnknown": "Неизвестно",
 
-  "detailsSceneYes": "После титров есть сцена",
-  "detailsSceneNo": "После титров сцены нет",
+  "detailsSceneYes": "Сцена есть",
+  "detailsSceneNo": "Сцены нет",
   "detailsSceneUnknown": "Голосов пока мало",
   "detailsSceneUnknownHint": "Скажите одним из первых — это одно касание.",
   "detailsSceneConfidence": "{percent}% проголосовавших согласны",
@@ -52,7 +52,7 @@
     }
   },
 
-  "detailsVoteQuestion": "После титров в этом фильме была сцена?",
+  "detailsVoteQuestion": "Была ли в этом фильме сцена во время или после титров?",
   "detailsVoteYes": "Да, была",
   "detailsVoteNo": "Нет, не было",
   "detailsWorthQuestion": "Её стоило дождаться?",
@@ -72,7 +72,7 @@
   "searchEmptyOffline": "Без сети доступны только те фильмы, которые вы уже искали.",
 
   "myVotesEmpty": "Вы ещё не голосовали.",
-  "myVotesEmptyHint": "Откройте фильм и скажите, есть ли в нём сцена после титров.",
+  "myVotesEmptyHint": "Откройте фильм и скажите, есть ли в нём сцена во время или после титров.",
   "myVotesPending": "Ожидает отправки",
   "voteAnswerSceneYes": "Вы сказали: сцена есть",
   "voteAnswerSceneNo": "Вы сказали: сцены нет",

@@ -77,14 +77,14 @@ void main() {
   testWidgets('states the verdict and the confidence behind it', (tester) async {
     await pump(tester, stats(total: 14, scene: 12));
 
-    expect(find.text('There is a scene after the credits'), findsOneWidget);
+    expect(find.text('There is a scene'), findsOneWidget);
     expect(find.text('86% of voters agree'), findsOneWidget);
   });
 
   testWidgets('states the negative verdict with the share backing it', (tester) async {
     await pump(tester, stats(total: 14, scene: 2));
 
-    expect(find.text('No scene after the credits'), findsOneWidget);
+    expect(find.text('No scene'), findsOneWidget);
     expect(find.text('86% of voters agree'), findsOneWidget);
   });
 
@@ -106,7 +106,7 @@ void main() {
   testWidgets('renders the verdict in Russian', (tester) async {
     await pump(tester, stats(total: 14, scene: 12), locale: const Locale('ru'));
 
-    expect(find.text('После титров есть сцена'), findsOneWidget);
+    expect(find.text('Сцена есть'), findsOneWidget);
     expect(find.text('86% проголосовавших согласны'), findsOneWidget);
   });
 
@@ -125,7 +125,7 @@ void main() {
   testWidgets('the verdict outweighs its supporting detail visually', (tester) async {
     await pump(tester, stats(total: 14, scene: 12));
 
-    final headline = tester.widget<Text>(find.text('There is a scene after the credits'));
+    final headline = tester.widget<Text>(find.text('There is a scene'));
     final detail = tester.widget<Text>(find.text('86% of voters agree'));
 
     expect(

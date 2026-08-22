@@ -171,7 +171,10 @@ void main() {
 
     expect(find.text('Dune'), findsOneWidget);
     expect(find.text('Not enough votes yet'), findsOneWidget);
-    expect(find.text('Did this film have a scene after the credits?'), findsOneWidget);
+    expect(
+      find.text('Did this film have a scene during or after the credits?'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('grows the description in when it arrives after the page opened', (

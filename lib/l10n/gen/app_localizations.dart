@@ -206,13 +206,13 @@ abstract class AppLocalizations {
   /// No description provided for @detailsSceneYes.
   ///
   /// In en, this message translates to:
-  /// **'There is a scene after the credits'**
+  /// **'There is a scene'**
   String get detailsSceneYes;
 
   /// No description provided for @detailsSceneNo.
   ///
   /// In en, this message translates to:
-  /// **'No scene after the credits'**
+  /// **'No scene'**
   String get detailsSceneNo;
 
   /// No description provided for @detailsSceneUnknown.
@@ -254,7 +254,7 @@ abstract class AppLocalizations {
   /// No description provided for @detailsVoteQuestion.
   ///
   /// In en, this message translates to:
-  /// **'Did this film have a scene after the credits?'**
+  /// **'Did this film have a scene during or after the credits?'**
   String get detailsVoteQuestion;
 
   /// No description provided for @detailsVoteYes.
@@ -332,7 +332,7 @@ abstract class AppLocalizations {
   /// No description provided for @myVotesEmptyHint.
   ///
   /// In en, this message translates to:
-  /// **'Open a film and say whether it has a scene after the credits.'**
+  /// **'Open a film and say whether it has a scene during or after the credits.'**
   String get myVotesEmptyHint;
 
   /// No description provided for @myVotesPending.

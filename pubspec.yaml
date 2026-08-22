@@ -1,5 +1,5 @@
 name: stingers
-description: "Does this film have a post-credits scene, and is it worth waiting for?"
+description: "Does this film have a scene during or after the credits, and is it worth waiting for?"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev

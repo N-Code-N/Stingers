@@ -68,10 +68,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get badgeUnknown => 'Неизвестно';
 
   @override
-  String get detailsSceneYes => 'После титров есть сцена';
+  String get detailsSceneYes => 'Сцена есть';
 
   @override
-  String get detailsSceneNo => 'После титров сцены нет';
+  String get detailsSceneNo => 'Сцены нет';
 
   @override
   String get detailsSceneUnknown => 'Голосов пока мало';
@@ -96,7 +96,8 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get detailsVoteQuestion => 'После титров в этом фильме была сцена?';
+  String get detailsVoteQuestion =>
+      'Была ли в этом фильме сцена во время или после титров?';
 
   @override
   String get detailsVoteYes => 'Да, была';
@@ -139,7 +140,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get myVotesEmptyHint =>
-      'Откройте фильм и скажите, есть ли в нём сцена после титров.';
+      'Откройте фильм и скажите, есть ли в нём сцена во время или после титров.';
 
   @override
   String get myVotesPending => 'Ожидает отправки';
